@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iitp 최신 기술이 적용된 RFP 작성</title>
+  <style>
+    :root{
+      --bg:#f4f8fd; --card:#fff; --text:#16324a; --muted:#5d7084; --line:#d9e4f0;
+      --primary:#155eef; --primary2:#0f4fb8; --accent:#eaf2ff; --good:#0a8f63; --warn:#a87a00;
+      --shadow:0 12px 28px rgba(21,94,239,.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f7fbff,#eef4fb);color:var(--text)}
+    .wrap{max-width:1320px;margin:0 auto;padding:24px}
+    header{background:linear-gradient(135deg,#0b3b8a,#155eef 60%,#5f8cff);color:#fff;border-radius:22px;padding:28px;box-shadow:var(--shadow)}
+    header h1{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
+    header p{margin:0;line-height:1.7;opacity:.95}
+    .grid{display:grid;gap:18px;margin-top:18px}
+    .two{grid-template-columns:1.2fr .8fr}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+    h2{margin:0 0 12px;font-size:20px}
+    .sub{color:var(--muted);font-size:13px;line-height:1.6}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+    table{width:100%;border-collapse:collapse;min-width:960px}
+    th,td{padding:12px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left;font-size:13px;line-height:1.45}
+    th{position:sticky;top:0;background:#f1f6ff;color:#23455f}
+    .badge{display:inline-flex;align-items:center;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;background:var(--accent);color:var(--primary2)}
+    .badge.good{background:#e7f8f1;color:var(--good)}
+    .badge.warn{background:#fff5d8;color:var(--warn)}
+    .pill-list{display:flex;flex-wrap:wrap;gap:8px}
+    .pill{padding:7px 10px;border-radius:999px;background:#edf4ff;color:#2251aa;font-size:12px}
+    .mini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .mini .box{padding:14px;border:1px solid var(--line);border-radius:14px;background:#fbfdff}
+    .mini .v{margin-top:4px;font-size:18px;font-weight:800}
+    .form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .field{display:flex;flex-direction:column;gap:7px}
+    .full{grid-column:1/-1}
+    label{font-size:13px;font-weight:700;color:#26435d}
+    input,select,textarea{width:100%;padding:12px 13px;border:1px solid #cad8e6;border-radius:12px;background:#fff;color:var(--text);font-size:14px}
+    textarea{min-height:96px;resize:vertical}
+    .actions{display:flex;flex-wrap:wrap;gap:10px}
+    button{border:0;border-radius:12px;padding:12px 14px;font-weight:700;cursor:pointer}
+    .primary{background:var(--primary);color:#fff}
+    .secondary{background:#eaf1ff;color:#1848a7}
+    .ghost{background:#eef3f8;color:#29445c}
+    .wide{flex:1 1 220px}
+    .result{background:#0f172a;color:#e5edf7;border-radius:16px;padding:16px;min-height:240px;white-space:pre-wrap;line-height:1.65;font-size:13px}
+    @media (max-width:1080px){.two,.mini,.form{grid-template-columns:1fr}header h1{font-size:26px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="badge">IITP R&D 기획 도구</div>
+      <h1>iitp 최신 기술이 적용된 RFP 작성</h1>
+      <p>기존 수요조사서-RFP 연계 확인, ICT 기술분류 선택, 최신 뉴스·논문 검색, 수요조사서 및 RFP 자동 생성을 위한 실제 데이터 연동형 랜딩페이지입니다.</p>
+    </header>
+
+    <section class="grid two">
+      <div class="card">
+        <h2>1. 기존 수요조사서-RFP 연계표</h2>
+        <div class="sub">실제 IDEA/RFP 분석 결과를 기반으로 연계 후보를 자동 표시합니다.</div>
+        <div class="table-wrap" style="margin-top:12px">
+          <table>
+            <thead>
+              <tr>
+                <th>입력 주제</th><th>기술분류</th><th>관련 수요조사서</th><th>관련 RFP</th><th>연계강도</th><th>연계 근거</th>
+              </tr>
+            </thead>
+            <tbody id="linkTableBody">
+              <tr><td colspan="6">입력값을 반영하면 연계 결과가 표시됩니다.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>에이전트 핵심 입력값</h2>
+        <div class="pill-list">
+          <span class="pill">과제 주제</span><span class="pill">해결 문제</span><span class="pill">목표 기술</span><span class="pill">ICT 기술분류</span>
+          <span class="pill">정보보호 세부 분야</span><span class="pill">적용 산업</span><span class="pill">활용 대상</span><span class="pill">기존 RFP 연계</span>
+          <span class="pill">신규성/차별성</span><span class="pill">뉴스·논문 키워드</span><span class="pill">예상 연구기간</span><span class="pill">예상 성과물</span><span class="pill">산출물 유형</span>
+        </div>
+        <div class="mini" style="margin-top:12px">
+          <div class="box"><div class="sub">수요조사서 입력</div><div class="v">제안배경·필요성·기술동향</div></div>
+          <div class="box"><div class="sub">RFP 입력</div><div class="v">추진배경·목표·KPI·단계계획</div></div>
+          <div class="box"><div class="sub">기술분류</div><div class="v">Tech Tree 기준</div></div>
+          <div class="box"><div class="sub">검색 입력</div><div class="v">키워드·기간·출처·유형</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. 기술분야 선택 영역</h2>
+      <div class="sub">Tech Tree 기준 용어만 사용합니다. 자동 추출이 어려운 항목은 주석과 함께 예시 옵션으로 제공됩니다.</div>
+      <div class="form" style="margin-top:14px">
+        <div class="field"><label for="topic">작성할 과제 주제</label><input id="topic" placeholder="예: 생성형 AI 기반 개인정보 유출 방지" /></div>
+        <div class="field"><label for="problem">해결하고자 하는 문제</label><input id="problem" placeholder="예: 멀티모달 환경에서 개인정보 유출 탐지 한계" /></div>
+        <div class="field"><label for="goalTech">목표 기술</label><input id="goalTech" placeholder="예: 비식별화, 위협탐지, 제로트러스트" /></div>
+        <div class="field">
+          <label for="securityDomain">정보보호 세부 분야</label>
+          <select id="securityDomain">
+            <option>인공지능보안</option><option>네트워크·클라우드 보안</option><option>인증·인가</option><option>암호</option><option>디지털포렌식</option><option>OT/ICS 보안</option><option>개인정보보호</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="majorClass">대분류</label>
+          <select id="majorClass">
+            <option>사이버보안</option><option>AI·디지털융합</option><option>차세대통신</option><option>양자</option><option>사물인터넷</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="midClass">중분류</label>
+          <select id="midClass">
+            <option>네트워크·클라우드 보안</option><option>공통보안</option><option>데이터보호</option><option>AI생태계보안내재화핵심기술개발</option><option>차세대통신보안</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="subClass">소분류</label>
+          <select id="subClass">
+            <option>지능형 위협분석 및 관제</option><option>클라우드보안</option><option>인공지능보안</option><option>인증·인가</option><option>암호</option>
+          </select>
+        </div>
+        <div class="field"><label for="detailTech">세부 기술 키워드</label><input id="detailTech" placeholder="예: 멀티모달 탐지, 재식별 위험평가, SOAR" /></div>
+        <div class="field"><label for="industry">적용 산업 또는 활용 분야</label><input id="industry" placeholder="예: 공공, 의료, 통신, OT/ICS, 클라우드" /></div>
+        <div class="field">
+          <label for="isSecurity">정보보호 관련 여부</label>
+          <select id="isSecurity"><option>예</option><option>아니오</option></select>
+        </div>
+        <div class="field"><label for="users">활용 대상</label><input id="users" placeholder="예: 공공기관, 제조기업, 연구기관, 일반국민" /></div>
+        <div class="field">
+          <label for="rfpRelated">기존 RFP와의 연계 여부</label>
+          <select id="rfpRelated"><option>강함</option><option>보통</option><option>약함</option><option>미확인</option></select>
+        </div>
+        <div class="field"><label for="novelty">신규성 또는 차별성</label><textarea id="novelty" placeholder="예: 멀티모달 데이터에서 개인정보 탐지와 비식별화를 통합하는 점이 차별적"></textarea></div>
+        <div class="field"><label for="keywords">참고할 최신 뉴스·논문 키워드</label><input id="keywords" placeholder="예: 생성형 AI, 개인정보 유출, zero trust, LMM, PQC" /></div>
+        <div class="field"><label for="period">예상 연구기간</label><input id="period" placeholder="예: 3년, 4년, 5년" /></div>
+        <div class="field"><label for="outputs">예상 성과물</label><input id="outputs" placeholder="예: 시제품, 표준안, 플랫폼, 특허, 논문" /></div>
+        <div class="field">
+          <label for="outputType">작성할 산출물 유형</label>
+          <select id="outputType"><option>수요조사서</option><option>RFP</option><option>사업기획보고서</option><option>수요조사서 + RFP</option></select>
+        </div>
+        <div class="field full">
+          <label for="techTreeNote">Tech Tree 기준 분류 메모</label>
+          <textarea id="techTreeNote" placeholder="자동 추출이 어려우면 이곳에 매핑 기준을 메모하고, 추후 Tech Tree 데이터로 교체합니다."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. 최신 뉴스·논문 검색창</h2>
+      <div class="sub">선택한 기술분야와 주제를 기준으로 최신 정보보호 뉴스와 논문을 검색하는 구조입니다.</div>
+      <div class="form" style="margin-top:14px">
+        <div class="field"><label for="searchKeyword">검색 키워드</label><input id="searchKeyword" placeholder="예: 생성형 AI 보안, 개인정보 보호, 제로트러스트" /></div>
+        <div class="field"><label for="searchTech">기술분야</label><input id="searchTech" placeholder="예: 사이버보안 > 공통보안 > 인공지능보안" /></div>
+        <div class="field">
+          <label for="periodSelect">기간 선택</label>
+          <select id="periodSelect"><option>최근 1주</option><option selected>최근 1개월</option><option>최근 3개월</option><option>직접 입력</option></select>
+        </div>
+        <div class="field"><label for="customPeriod">직접 입력 기간</label><input id="customPeriod" placeholder="예: 2026-06-01 ~ 2026-07-05" /></div>
+        <div class="field">
+          <label for="resourceType">자료 유형</label>
+          <select id="resourceType"><option>뉴스</option><option>논문</option><option>정책자료</option><option>보도자료</option><option>표준·가이드라인</option></select>
+        </div>
+        <div class="field">
+          <label for="sourceSelect">출처</label>
+          <select id="sourceSelect"><option>KISA</option><option>IITP</option><option>NIST</option><option>ENISA</option><option>CISA</option><option>Google Security</option><option>Microsoft Security</option><option>기타</option></select>
+        </div>
+        <div class="field full">
+          <div class="actions">
+            <button class="primary wide" type="button" onclick="searchLatestResources()">최신 뉴스·논문 검색</button>
+            <button class="secondary wide" type="button" onclick="buildAgentPrompt('search')">검색 프롬프트 생성</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:14px">
+        <table>
+          <thead>
+            <tr><th>제목</th><th>출처</th><th>날짜</th><th>핵심 이슈</th><th>신규과제 아이디어 연계 가능성</th></tr>
+          </thead>
+          <tbody id="resourceResults">
+            <tr><td colspan="5">검색 실행 시 결과가 표시됩니다. 실제 검색 API 연동용 구조만 구현되어 있습니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>4. 수요조사서 및 RFP 작성 실행 영역</h2>
+      <div class="sub">입력값과 검색 결과를 종합해 Agent 실행용 프롬프트를 만들고, 추후 백엔드 또는 LLM API와 연결할 수 있도록 구성했습니다.</div>
+      <div class="actions" style="margin-top:14px">
+        <button class="primary wide" type="button" onclick="generateDemandSurvey()">수요조사서 작성</button>
+        <button class="secondary wide" type="button" onclick="generateRfpDraft()">RFP 초안 작성</button>
+        <button class="secondary wide" type="button" onclick="generateBothDocuments()">수요조사서 + RFP 동시 작성</button>
+        <button class="ghost wide" type="button" onclick="generatePlanningReport()">사업기획보고서 작성</button>
+      </div>
+      <div class="form" style="margin-top:14px">
+        <div class="field full"><label for="promptBox">Agent 실행용 프롬프트</label><textarea id="promptBox" placeholder="버튼을 누르면 여기에 실행 프롬프트가 생성됩니다."></textarea></div>
+        <div class="field full"><label for="resultBox">결과 출력 영역</label><div id="resultBox" class="result">생성 결과가 여기에 표시됩니다.</div></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const DATA = {
+      techTree: {
+        major: ['사이버보안', 'AI·디지털융합', '차세대통신', '양자', '사물인터넷'],
+        mid: {
+          '사이버보안': ['네트워크·클라우드 보안', '공통보안', 'AI생태계보안내재화핵심기술개발', '범국가양자내성암호전환핵심기술개발'],
+          'AI·디지털융합': ['인공지능', '데이터분석'],
+          '차세대통신': ['6G', 'Open RAN'],
+          '양자': ['양자암호', '양자통신'],
+          '사물인터넷': ['IoT보안', '엣지보안']
+        },
+        sub: {
+          '네트워크·클라우드 보안': ['지능형 위협분석 및 관제', '클라우드보안'],
+          '공통보안': ['인공지능보안', '인증·인가', '암호'],
+          'AI생태계보안내재화핵심기술개발': ['인공지능보안'],
+          '범국가양자내성암호전환핵심기술개발': ['암호']
+        }
+      },
+      ideas: [
+        { id:'IDEA-1', name:'AI 기반 멀티모달 데이터 개인정보 탐지 및 비식별화 기술 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'텍스트·이미지·음성·영상에서 개인정보 탐지·비식별화', keywords:['멀티모달','개인정보','비식별화','재식별 위험'], industry:'공공·산업 데이터 플랫폼', linked:['RFP-5','RFP-7'] },
+        { id:'IDEA-2', name:'대규모 AI 학습·분석 최적화 보안 데이터 안심구역 기술 개발', tech:'사이버보안 > 네트워크·클라우드 보안 > 클라우드보안', desc:'안전한 데이터 활용 환경', keywords:['안심구역','클라우드','데이터 활용'], industry:'공공·데이터 플랫폼', linked:['RFP-2'] },
+        { id:'IDEA-4', name:'AI 기반 개인정보보호 법규 준수 자동 탐지 및 위반 가능성 예측 기술 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'법규 준수 자동 탐지와 위반 가능성 예측', keywords:['법규 준수','PIA','위반 예측'], industry:'공공·기업 컴플라이언스', linked:['RFP-7'] },
+        { id:'IDEA-7', name:'생성형 AI 출력물 기반 개인정보 유출 취약성 평가 및 보호 기술 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'생성형 AI 출력물의 개인정보 유출 취약성 평가', keywords:['생성형 AI','유출','취약성 평가'], industry:'AI 서비스', linked:['RFP-5','RFP-7'] },
+        { id:'IDEA-11', name:'머신러닝 기반 자율형 위협 인텔리전스 수집·분석 및 SOAR 자동 대응 시스템 개발', tech:'사이버보안 > 네트워크·클라우드 보안 > 지능형 위협분석 및 관제', desc:'위협 인텔리전스 수집·분석 및 자동 대응', keywords:['위협 인텔리전스','SOAR','자동 대응'], industry:'보안관제', linked:['RFP-1'] },
+        { id:'IDEA-16', name:'6G Open RAN 환경 신뢰 모델 기반 보안 기술 개발', tech:'사이버보안 > 네트워크·클라우드 보안 > 클라우드보안', desc:'6G Open RAN 환경 신뢰 모델 기반 보안', keywords:['6G','Open RAN','신뢰 모델'], industry:'통신', linked:['RFP-2'] },
+        { id:'IDEA-21', name:'AI 기반 개인정보 영향평가(PIA) 자동화 기술 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'개인정보 영향평가 자동화', keywords:['PIA','자동화','개인정보'], industry:'공공·규제준수', linked:['RFP-7'] },
+        { id:'IDEA-23', name:'모바일·클라우드·다크웹 환경 자동화 디지털 포렌식 기술 고도화', tech:'사이버보안 > 공통보안 > 인증·인가', desc:'자동화 디지털 포렌식', keywords:['포렌식','다크웹','클라우드'], industry:'수사·조사', linked:['RFP-4'] },
+        { id:'IDEA-25', name:'PLC/SCADA 취약점 자동분석 및 디지털트윈 기반 OT/ICS 공급망 보안 시뮬레이션 기술', tech:'사이버보안 > 공통보안 > 인증·인가', desc:'OT/ICS 공급망 보안 시뮬레이션', keywords:['PLC','SCADA','디지털트윈','OT/ICS'], industry:'산업제어', linked:['RFP-1'] },
+        { id:'IDEA-27', name:'OT/ICS 특화 사이버 공격 탐지·방어 및 복원력 강화 기술 개발', tech:'사이버보안 > 네트워크·클라우드 보안 > 지능형 위협분석 및 관제', desc:'OT/ICS 공격 탐지·방어·복원력 강화', keywords:['OT/ICS','탐지','복원력'], industry:'제조·에너지', linked:['RFP-1'] },
+        { id:'IDEA-31', name:'개인정보 생애주기 전 과정 기반 보안 관리 및 흐름 가시화·위험도 자동 평가 기술 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'개인정보 생애주기 보안 관리', keywords:['생애주기','흐름 가시화','위험도'], industry:'공공·데이터 거버넌스', linked:['RFP-7'] }
+      ],
+      rfps: [
+        { id:'RFP-1', name:'사이버공격 실시간 방어수준 지표기반 평가 및 전주기 자율보안을 위한 시뮬레이터 개발', tech:'사이버보안 > 네트워크·클라우드 보안 > 지능형 위협분석 및 관제', desc:'최신 공격 자동 생성·재연·실시간 방어평가', keywords:['공격 시뮬레이터','방어수준 평가','자율보안'] },
+        { id:'RFP-2', name:'글로벌 표준 준용 AI기반 한국형 제로트러스트 오픈 플랫폼 기술개발', tech:'사이버보안 > 네트워크·클라우드 보안 > 클라우드보안', desc:'AI 기반 제로트러스트 오픈 플랫폼', keywords:['제로트러스트','플랫폼','클라우드'] },
+        { id:'RFP-4', name:'멀티모달 기반 이종ㆍ이형 디지털 증거 전처리 기술 개발', tech:'사이버보안 > 공통보안 > 인증·인가', desc:'멀티모달 디지털 증거 전처리', keywords:['디지털 증거','전처리','포렌식'] },
+        { id:'RFP-5', name:'LMM(Large Multimodal Model) 생태계의 보안 위협 및 취약점 분석과 안전성 검증 기술개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'LMM 생태계 안전성 검증', keywords:['LMM','안전성','취약점'] },
+        { id:'RFP-7', name:'AI 서비스의 개발부터 배포까지 전주기의 평가 프레임워크 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'AI 서비스 전주기 평가 프레임워크', keywords:['전주기 평가','AI 서비스','프레임워크'] },
+        { id:'RFP-8', name:'AI 지식재산권 보호를 위한 AI 모델 증류 방지 및 증류 추적 기술 개발', tech:'사이버보안 > 공통보안 > 인공지능보안', desc:'AI 모델 증류 방지·추적', keywords:['증류 방지','추적','지식재산권'] },
+        { id:'RFP-9', name:'PQC와 QKD를 결합한 도메인 간 양자보안 시스템 개발', tech:'사이버보안 > 공통보안 > 암호', desc:'양자보안 시스템', keywords:['PQC','QKD','양자보안'] },
+        { id:'RFP-10', name:'Quantum-Safe 초소형디바이스 실현을 위한 초경량 하드웨어 PQC 전환 기술 개발', tech:'사이버보안 > 공통보안 > 암호', desc:'초경량 하드웨어 PQC 전환', keywords:['PQC','하드웨어','Quantum-Safe'] },
+        { id:'RFP-11', name:'DevOps 기반 양자내성암호 전환 자동화 기술 및 오픈플랫폼 개발', tech:'사이버보안 > 공통보안 > 암호', desc:'PQC 전환 자동화 오픈플랫폼', keywords:['DevOps','자동화','PQC'] }
+      ],
+      newsSources: ['KISA','IITP','NIST','ENISA','CISA','Google Security','Microsoft Security','기타']
+    };
+
+    function collectInputs(){
+      return {
+        topic: g('topic'), problem: g('problem'), goalTech: g('goalTech'),
+        majorClass: g('majorClass'), midClass: g('midClass'), subClass: g('subClass'),
+        detailTech: g('detailTech'), securityDomain: g('securityDomain'), industry: g('industry'),
+        users: g('users'), isSecurity: g('isSecurity'), rfpRelated: g('rfpRelated'),
+        novelty: g('novelty'), keywords: g('keywords'), period: g('period'), outputs: g('outputs'),
+        outputType: g('outputType'), techTreeNote: g('techTreeNote'),
+        searchKeyword: g('searchKeyword'), searchTech: g('searchTech'),
+        periodSelect: g('periodSelect'), customPeriod: g('customPeriod'),
+        resourceType: g('resourceType'), sourceSelect: g('sourceSelect')
+      };
+    }
+    function g(id){ return document.getElementById(id).value.trim(); }
+
+    function scoreStrength(idea, rfp){
+      const a = [idea.tech, ...idea.keywords, idea.industry].join(' ');
+      const b = [rfp.tech, ...rfp.keywords, rfp.desc].join(' ');
+      let score = 0;
+      if (idea.tech === rfp.tech) score += 3;
+      if (idea.industry && rfp.desc.includes(idea.industry)) score += 1;
+      idea.keywords.forEach(k => { if (b.includes(k)) score += 1; });
+      if (score >= 6) return {stars:'★★★★★', note:'문제정의·핵심기술·적용분야가 대부분 일치'};
+      if (score >= 4) return {stars:'★★★★☆', note:'핵심기술과 적용산업의 유사성이 높음'};
+      if (score >= 2) return {stars:'★★★☆☆', note:'일부 핵심기술 또는 적용산업이 유사함'};
+      if (score >= 1) return {stars:'★★☆☆☆', note:'주제 수준의 관련성만 존재'};
+      return {stars:'★☆☆☆☆', note:'간접적 또는 참고 수준'};
+    }
+
+    function buildMatches(){
+      const v = collectInputs();
+      const topic = (v.topic || '미입력').toLowerCase();
+      const tech = `${v.majorClass} > ${v.midClass} > ${v.subClass}`;
+      const ideaMatches = DATA.ideas.filter(it =>
+        !v.topic ||
+        it.name.includes(v.topic) ||
+        topic.split(/\s+/).some(w => w && (it.name.includes(w) || it.desc.includes(w) || it.keywords.some(k => k.includes(w))))
+      );
+      const safeIdeas = ideaMatches.length ? ideaMatches : DATA.ideas.slice(0,3);
+      const rows = safeIdeas.map(idea => {
+        const linkedRfps = DATA.rfps.filter(r => idea.linked.includes(r.id));
+        const bestRfp = linkedRfps[0] || DATA.rfps.find(r => r.tech === idea.tech) || DATA.rfps[0];
+        const strength = scoreStrength(idea, bestRfp);
+        return {idea, rfp: bestRfp, strength};
+      });
+      return {rows, tech};
+    }
+
+    function renderLinkTable(){
+      const v = collectInputs();
+      const {rows, tech} = buildMatches();
+      const tbody = document.getElementById('linkTableBody');
+      tbody.innerHTML = rows.map(({idea, rfp, strength}) => `
+        <tr>
+          <td>${esc(v.topic || idea.name)}</td>
+          <td>${esc(tech)}</td>
+          <td>${esc(idea.name)}</td>
+          <td>${esc(rfp.name)}</td>
+          <td><span class="badge good">${strength.stars}</span></td>
+          <td>${esc(`${strength.note}. IDEA 기술분류 ${idea.tech}, RFP 기술분류 ${rfp.tech} 기준`)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function searchLatestResources(){
+      const v = collectInputs();
+      const period = v.periodSelect === '직접 입력' ? (v.customPeriod || '직접 입력 기간 미지정') : v.periodSelect;
+      const source = v.sourceSelect;
+      const base = (v.searchKeyword || v.topic || '보안').trim();
+      const relatedIdea = DATA.ideas.find(i => (i.name + i.desc + i.keywords.join(' ')).includes(base)) || DATA.ideas[0];
+      const relatedRfp = DATA.rfps.find(r => (r.name + r.desc + r.keywords.join(' ')).includes(base)) || DATA.rfps[0];
+      // TODO: 실제 검색 API 연동 지점
+      const results = [
+        {
+          title:`${base} 관련 최신 ${v.resourceType}`,
+          source,
+          date:'2026-07-05',
+          issue:`${period} 범위의 ${source}·${v.resourceType} 결과 예시`,
+          link:`${relatedIdea.name} / ${relatedRfp.name}과 연계 가능`
+        },
+        {
+          title:`${v.searchTech || v.majorClass} 보안 동향`,
+          source:'기타',
+          date:'2026-07-01',
+          issue:'실제 API 연결 시 최신 이슈와 논문 요약을 채워 넣음',
+          link:'기술분류 일치 여부 검토 필요'
+        }
+      ];
+      document.getElementById('resourceResults').innerHTML = results.map(r => `
+        <tr><td>${esc(r.title)}</td><td>${esc(r.source)}</td><td>${esc(r.date)}</td><td>${esc(r.issue)}</td><td>${esc(r.link)}</td></tr>
+      `).join('');
+      buildAgentPrompt('search');
+      renderLinkTable();
+    }
+
+    function buildAgentPrompt(mode){
+      const v = collectInputs();
+      const lines = [
+        `- 작성할 과제 주제: ${v.topic || '미입력'}`,
+        `- 해결하고자 하는 문제: ${v.problem || '미입력'}`,
+        `- 목표 기술: ${v.goalTech || '미입력'}`,
+        `- ICT 기술분류: ${v.majorClass} > ${v.midClass} > ${v.subClass}`,
+        `- 정보보호 세부 분야: ${v.securityDomain}`,
+        `- 적용 산업: ${v.industry || '미입력'}`,
+        `- 활용 대상: ${v.users || '미입력'}`,
+        `- 기존 RFP와의 연계 여부: ${v.rfpRelated}`,
+        `- 신규성/차별성: ${v.novelty || '미입력'}`,
+        `- 참고할 최신 뉴스·논문 키워드: ${v.keywords || '미입력'}`,
+        `- 예상 연구기간: ${v.period || '미입력'}`,
+        `- 예상 성과물: ${v.outputs || '미입력'}`,
+        `- 작성할 산출물 유형: ${v.outputType}`,
+        `- 검색 키워드: ${v.searchKeyword || '미입력'}`,
+        `- 검색 기술분야: ${v.searchTech || `${v.majorClass} > ${v.midClass} > ${v.subClass}`}`,
+        `- 기간 선택: ${v.periodSelect}${v.periodSelect === '직접 입력' ? ` / ${v.customPeriod || '미입력'}` : ''}`,
+        `- 자료 유형: ${v.resourceType}`,
+        `- 출처: ${v.sourceSelect}`,
+        `- Tech Tree 메모: ${v.techTreeNote || '없음'}`
+      ];
+      let prompt = '';
+      if (mode === 'search') {
+        prompt = ['당신은 최신 정보보호 뉴스·논문 검색 에이전트입니다.', '최근 1개월 이내 자료를 우선 분석하고 핵심 이슈와 신규과제 연계 가능성을 정리하세요.', ...lines].join('\n');
+      } else if (mode === 'demand') {
+        prompt = ['당신은 IITP 수요조사서 작성 에이전트입니다.', '검색 결과와 입력값을 이용해 수요조사서 형식으로 작성하세요.', ...lines].join('\n');
+      } else if (mode === 'rfp') {
+        prompt = ['당신은 IITP RFP 초안 작성 에이전트입니다.', '수요조사서와 기존 RFP 연계 관계를 반영해 RFP 초안을 작성하세요.', ...lines].join('\n');
+      } else if (mode === 'both') {
+        prompt = ['당신은 IITP 수요조사서와 RFP를 동시에 작성하는 에이전트입니다.', '먼저 수요조사서를 만들고 이를 기반으로 RFP로 확장하세요.', ...lines].join('\n');
+      } else {
+        prompt = ['당신은 사업기획보고서 작성 에이전트입니다.', '입력값과 검색 결과를 요약하여 사업기획보고서를 작성하세요.', ...lines].join('\n');
+      }
+      document.getElementById('promptBox').value = prompt;
+      return prompt;
+    }
+    function generateDemandSurvey(){ renderResult('수요조사서 작성 프롬프트가 생성되었습니다.', buildAgentPrompt('demand')); }
+    function generateRfpDraft(){ renderResult('RFP 초안 작성 프롬프트가 생성되었습니다.', buildAgentPrompt('rfp')); }
+    function generateBothDocuments(){ renderResult('수요조사서 + RFP 동시 작성 프롬프트가 생성되었습니다.', buildAgentPrompt('both')); }
+    function generatePlanningReport(){ renderResult('사업기획보고서 작성 프롬프트가 생성되었습니다.', buildAgentPrompt('report')); }
+
+    function renderResult(summary, prompt){
+      const v = collectInputs();
+      const link = DATA.ideas.find(i => (i.name + i.desc + i.keywords.join(' ')).includes(v.topic)) || DATA.ideas[0];
+      const rfp = DATA.rfps.find(r => link.linked.includes(r.id)) || DATA.rfps[0];
+      const strength = scoreStrength(link, rfp);
+      document.getElementById('resultBox').textContent = [
+        summary,
+        '',
+        '[현재 입력값 요약]',
+        `- 주제: ${v.topic || '미입력'}`,
+        `- 문제: ${v.problem || '미입력'}`,
+        `- 기술분류: ${v.majorClass} > ${v.midClass} > ${v.subClass}`,
+        `- 정보보호 세부 분야: ${v.securityDomain}`,
+        `- 적용 산업: ${v.industry || '미입력'}`,
+        `- 활용 대상: ${v.users || '미입력'}`,
+        `- 연계강도: ${strength.stars}`,
+        '',
+        '[생성 프롬프트]',
+        prompt
+      ].join('\n');
+      renderLinkTable();
+    }
+    function esc(v){ return String(v).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#39;'); }
+    window.addEventListener('input', renderLinkTable);
+    renderLinkTable();
+  </script>
+</body>
+</html>

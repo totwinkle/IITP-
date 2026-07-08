@@ -5,311 +5,943 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>사이버보안 분야 최신 연구주제에 맞는 RFP작성</title>
   <style>
-    :root {
-      --bg:#f5f8fc;
-      --card:#ffffff;
-      --text:#16324a;
-      --muted:#5d7084;
-      --line:#d9e4f0;
-      --primary:#155eef;
-      --primary2:#0f4fb8;
-      --accent:#eaf2ff;
-      --good:#0a8f63;
-      --warn:#a87a00;
-      --shadow:0 12px 28px rgba(21,94,239,.08);
+    :root{
+      --bg:#f6f1ea;
+      --card:#fffdf9;
+      --ink:#111111;
+      --muted:#5f5a52;
+      --line:rgba(17,17,17,.08);
+      --blue:#2146d0;
+      --navy:#101828;
+      --blue-soft:rgba(33,70,208,.08);
+      --shadow:0 18px 42px rgba(17,17,17,.08);
+      --radius:26px;
     }
-    * { box-sizing:border-box; }
-    body {
-      margin:0;
-      font-family: Arial, "Malgun Gothic", sans-serif;
-      background: linear-gradient(180deg,#f8fbff,#eef4fb);
-      color:var(--text);
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(circle at top left, rgba(33,70,208,.06), transparent 28%), linear-gradient(180deg, #f8f3ec 0%, #f6f1ea 100%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.55;transition:background-color .35s ease,color .35s ease}
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    .shell{max-width:1320px;margin:0 auto;padding:26px 20px 44px}
+    .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 20px;background:rgba(255,253,249,.88);border:1px solid rgba(17,17,17,.08);border-radius:24px;box-shadow:0 12px 30px rgba(17,17,17,.06);backdrop-filter:blur(10px)}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand-mark{width:14px;height:14px;border-radius:5px;background:var(--blue);box-shadow:0 0 0 8px rgba(33,70,208,.10)}
+    .brand h1{font-size:1.08rem;margin:0;color:var(--navy);letter-spacing:-.02em}
+    .brand p{margin:0;color:var(--muted);font-size:.92rem}
+    .nav{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+    .chip{padding:9px 12px;border:1px solid rgba(17,17,17,.08);border-radius:999px;background:rgba(255,255,255,.78);color:var(--muted);font-size:.9rem}
+    .hero{margin-top:18px;display:grid;grid-template-columns:1.35fr .85fr;gap:18px}
+    .hero-card,.panel,.doc-card{background:var(--card);border:1px solid rgba(17,17,17,.08);border-radius:var(--radius);box-shadow:0 14px 32px rgba(17,17,17,.06)}
+    .hero-card{padding:28px;overflow:hidden;position:relative}
+    .hero-card::after{content:"";position:absolute;inset:auto -16% -42% auto;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle, rgba(33,70,208,.09), transparent 64%);pointer-events:none}
+    .eyebrow{display:inline-flex;gap:10px;align-items:center;color:var(--blue);font-weight:700;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}
+    .eyebrow::before{content:"";width:36px;height:1px;background:var(--blue)}
+    .hero-card h2{margin:12px 0 10px;font-size:2.18rem;line-height:1.08;letter-spacing:-.05em;max-width:16ch}
+    .hero-card p{margin:0;max-width:62rem;color:var(--muted);font-size:1rem;word-break:keep-all;line-height:1.75}
+    .hero-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;position:relative;z-index:1}
+    .metric{padding:14px 16px;border:1px solid rgba(17,17,17,.08);border-radius:18px;background:rgba(255,255,255,.82)}
+    .metric span{display:block;font-size:.82rem;color:var(--blue);font-weight:700;margin-bottom:6px}
+    .metric strong{display:block;font-size:.96rem;line-height:1.35}
+    .hero-side{display:grid;gap:14px}
+    .info-stack{padding:18px}
+    .info-stack h3,.panel h3,.doc-card h3{margin:0 0 12px;font-size:1.02rem;letter-spacing:-.02em}
+    .info-list{display:grid;gap:12px}
+    .info-item{padding:12px 0;border-top:1px solid var(--line)}
+    .info-item:first-child{border-top:0;padding-top:0}
+    .info-item strong{display:block;font-size:.88rem;color:var(--blue);margin-bottom:6px}
+    .info-item div{color:var(--muted);font-size:.94rem;word-break:keep-all}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:18px}
+    .panel{padding:18px}
+    .accordion summary{
+      list-style:none;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:linear-gradient(180deg, rgba(33,70,208,.04), rgba(255,253,249,.98));
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
     }
-    .wrap { max-width: 1360px; margin:0 auto; padding:24px; }
-    header {
-      background: linear-gradient(135deg,#0b3b8a,#155eef 60%,#5f8cff);
-      color:#fff; border-radius:22px; padding:28px; box-shadow:var(--shadow);
+    .accordion summary::-webkit-details-marker{display:none}
+    .accordion summary .hint{color:var(--muted);font-size:.9rem;font-weight:500}
+    .accordion[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent;margin-bottom:0}
+    .accordion .accordion-body{padding:18px;border:1px solid var(--line);border-top:0;border-bottom-left-radius:20px;border-bottom-right-radius:20px;background:#fff;box-shadow:var(--shadow)}
+    .panel-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-end;margin-bottom:14px}
+    .panel-head p{margin:0;color:var(--muted);font-size:.92rem}
+    .section-title{margin:0;font-size:1.08rem;color:var(--navy);letter-spacing:-.03em}
+    .subtle{color:var(--muted);font-size:.9rem}
+    .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .field{display:grid;gap:8px}
+    label{font-size:.9rem;font-weight:700;color:var(--navy)}
+    input[type="text"],input[type="password"],select,textarea{
+      width:100%;padding:12px 14px;border:1px solid rgba(15,23,42,.14);border-radius:14px;background:#fff;color:var(--ink);outline:none;
     }
-    header h1 { margin:0 0 8px; font-size:30px; letter-spacing:-.03em; }
-    header p { margin:0; line-height:1.7; opacity:.96; }
-    .badge { display:inline-flex; align-items:center; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:700; background:#eef4ff; color:#103b88; }
-    .card {
-      background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px; box-shadow:var(--shadow);
-      margin-top:18px;
+    textarea{min-height:112px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:rgba(29,78,216,.5);box-shadow:0 0 0 4px rgba(29,78,216,.10)}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .btn{appearance:none;border:0;border-radius:14px;padding:12px 16px;font-weight:700;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,opacity .12s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 24px rgba(29,78,216,.24)}
+    .btn-dark{background:var(--navy);color:#fff}
+    .btn-light{background:rgba(29,78,216,.08);color:var(--blue);border:1px solid rgba(29,78,216,.14)}
+    .btn-ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
+    .btn-done{background:#16a34a !important;color:#fff !important;box-shadow:0 10px 24px rgba(22,163,74,.22) !important}
+    .btn-done:hover{transform:translateY(-1px)}
+    .status{padding:10px 12px;border-radius:12px;background:#f8fafc;border:1px dashed rgba(15,23,42,.16);color:var(--muted);font-size:.9rem}
+    .status.ok{background:rgba(16,185,129,.08);color:#0f766e;border-color:rgba(16,185,129,.18)}
+    .status.warn{background:rgba(245,158,11,.12);color:#92400e;border-color:rgba(245,158,11,.22)}
+    .topic-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .topic-card{
+      width:100%;
+      padding:16px;
+      border:1px solid rgba(17,17,17,.08);
+      border-radius:20px;
+      background:linear-gradient(180deg, rgba(33,70,208,.03), rgba(255,255,255,.98));
+      text-align:left;
+      cursor:pointer;
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease, background .15s ease;
+      appearance:none;
+      font:inherit;
     }
-    h2 { margin:0 0 12px; font-size:20px; }
-    .sub { color:var(--muted); font-size:13px; line-height:1.6; }
-    .form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:14px; }
-    .field { display:flex; flex-direction:column; gap:7px; }
-    .full { grid-column:1/-1; }
-    label { font-size:13px; font-weight:700; color:#26435d; }
-    input,select,textarea {
-      width:100%; padding:12px 13px; border:1px solid #cad8e6; border-radius:12px; background:#fff; color:var(--text); font-size:14px;
+    .topic-card:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(17,17,17,.08)}
+    .topic-card.selected{
+      border-color:rgba(33,70,208,.36);
+      box-shadow:0 18px 36px rgba(33,70,208,.12);
+      background:linear-gradient(180deg, rgba(33,70,208,.08), rgba(255,255,255,.98));
     }
-    textarea { min-height:100px; resize:vertical; }
-    .actions { display:flex; flex-wrap:wrap; gap:10px; }
-    button {
-      border:0; border-radius:12px; padding:12px 14px; font-weight:700; cursor:pointer;
+    .topic-card.selected h4{color:var(--navy)}
+    .topic-card h4{margin:0 0 10px;font-size:1.03rem;line-height:1.4;letter-spacing:-.02em}
+    .topic-card ul{margin:0;padding-left:18px;color:var(--muted)}
+    .topic-card li{margin:4px 0}
+    .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .tag{font-size:.8rem;padding:6px 10px;border-radius:999px;background:rgba(29,78,216,.08);color:var(--blue);border:1px solid rgba(29,78,216,.14)}
+    .result-box{padding:14px;border-radius:18px;border:1px solid var(--line);background:#fff}
+    .result-list{display:grid;gap:12px}
+    .result-item{padding:14px;border-radius:18px;background:rgba(15,23,42,.02);border:1px solid rgba(15,23,42,.08)}
+    .result-item strong{display:block;font-size:1rem;margin-bottom:6px}
+    .result-item p{margin:0;color:var(--muted);font-size:.94rem}
+    .risk{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+    .dot{width:10px;height:10px;border-radius:50%;background:#94a3b8}
+    .risk.low .dot{background:#16a34a}.risk.mid .dot{background:#f59e0b}.risk.high .dot{background:#dc2626}
+    .preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .doc-card{padding:16px}
+    .doc{background:#fff;border:1px solid rgba(17,17,17,.08);border-radius:18px;padding:18px;min-height:580px;overflow:auto}
+    .doc h4{margin:0 0 8px;font-size:1.1rem}
+    .doc .meta{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+    .doc table{width:100%;border-collapse:collapse;margin:12px 0}
+    .doc th,.doc td{border:1px solid rgba(15,23,42,.12);padding:10px 12px;text-align:left;vertical-align:top}
+    .doc th{background:#f8f6f1;color:var(--navy);width:24%}
+    .doc h5{margin:14px 0 8px;font-size:1rem;color:var(--navy)}
+    .doc p,.doc li{font-size:.95rem;line-height:1.6}
+    .mini-note{color:var(--muted);font-size:.86rem}
+    .leadline{max-width:62ch;color:var(--muted);font-size:1rem;line-height:1.75}
+    .overlap-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:700;
+      border:1px solid transparent;
+      white-space:nowrap;
     }
-    .primary { background:var(--primary); color:#fff; }
-    .secondary { background:#eaf1ff; color:#1848a7; }
-    .ghost { background:#eef3f8; color:#29445c; }
-    .wide { flex:1 1 220px; }
-    .table-wrap { overflow:auto; border:1px solid var(--line); border-radius:14px; background:#fff; }
-    table { width:100%; border-collapse:collapse; min-width:920px; }
-    th,td {
-      padding:12px 10px; border-bottom:1px solid var(--line); vertical-align:top; text-align:left; font-size:13px; line-height:1.45;
+    .overlap-badge.low{background:rgba(22,163,74,.10);color:#166534;border-color:rgba(22,163,74,.18)}
+    .overlap-badge.mid{background:rgba(245,158,11,.12);color:#92400e;border-color:rgba(245,158,11,.22)}
+    .overlap-badge.high{background:rgba(220,38,38,.10);color:#991b1b;border-color:rgba(220,38,38,.18)}
+    .hidden{display:none !important}
+    .footer{margin-top:18px;color:var(--muted);font-size:.88rem;text-align:center}
+    @media (max-width:1100px){
+      .hero,.preview-grid,.topic-grid,.row,.row-3,.hero-grid{grid-template-columns:1fr}
     }
-    th { background:#f1f6ff; color:#23455f; }
-    .topic-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-top:14px; }
-    .topic {
-      border:1px solid var(--line); border-radius:16px; padding:14px; background:linear-gradient(180deg,#fff,#f9fbff);
-    }
-    .topic.selected { border-color:var(--primary); box-shadow:0 0 0 3px rgba(21,94,239,.12); }
-    .topic h3 { margin:0 0 8px; font-size:16px; color:var(--primary2); }
-    .topic ul { margin:10px 0 0 18px; padding:0; font-size:13px; color:#24364a; }
-    .topic li { margin:4px 0; }
-    .tag { display:inline-block; padding:5px 9px; border-radius:999px; background:#ecfbf2; color:#0a8f63; font-size:12px; font-weight:700; }
-    .status { padding:12px 14px; border-radius:12px; background:#f7fafc; border:1px solid var(--line); color:var(--muted); font-size:14px; }
-    .status.ok { background:#ecfbf2; color:var(--good); border-color:#b7e4c5; }
-    .result {
-      background:#0f172a; color:#e5edf7; border-radius:16px; padding:16px; min-height:220px; white-space:pre-wrap; line-height:1.65; font-size:13px;
-    }
-    .preview {
-      background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; min-height:280px; white-space:pre-wrap; line-height:1.7;
-    }
-    .hidden { display:none !important; }
-    .pill-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px; }
-    .pill { padding:7px 10px; border-radius:999px; background:#edf4ff; color:#2251aa; font-size:12px; text-align:center; }
-    .mini { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:12px; }
-    .mini .box { padding:14px; border:1px solid var(--line); border-radius:14px; background:#fbfdff; }
-    .mini .v { margin-top:4px; font-size:18px; font-weight:800; }
-    .download-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
-    @media (max-width:1080px) {
-      .form, .topic-grid, .mini, .pill-list { grid-template-columns:1fr; }
-      header h1 { font-size:26px; }
+    @media (max-width:720px){
+      .shell{padding:14px}
+      .topbar,.hero-card,.panel,.doc-card{border-radius:20px}
+      .hero-card h2{font-size:1.65rem;max-width:none}
+      .panel-head{flex-direction:column;align-items:flex-start}
+      .toolbar{gap:8px}
+      .btn{width:100%;justify-content:center}
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="badge">IITP R&D 기획 도구</div>
-      <h1>사이버보안 분야 최신 연구주제에 맞는 RFP작성</h1>
-      <p>최신 연구주제 검색, 3개 후보 카드 제시, 카드 선택 후 수요조사서 및 RFP 작성과 다운로드까지 하나의 화면에서 수행하는 랜딩페이지입니다.</p>
-    </header>
-
-    <section class="card" id="section1">
-      <h2>1. 최신 뉴스·논문 검색창</h2>
-      <div class="sub">검색 결과를 바탕으로 기존에 없던 최신 연구주제 후보 3개를 제시합니다.</div>
-      <div class="form">
-        <div class="field"><label for="searchKeyword">검색 키워드</label><input id="searchKeyword" value="제로트러스트" placeholder="예: 생성형 AI 보안, 개인정보 보호, 제로트러스트" /></div>
-        <div class="field"><label for="searchTech">기술분야</label><input id="searchTech" value="사이버보안" placeholder="예: 사이버보안 > 공통보안 > 인공지능보안" /></div>
-        <div class="field"><label for="periodSelect">기간 선택</label><select id="periodSelect"><option>최근 1주</option><option selected>최근 1개월</option><option>최근 3개월</option><option>직접 입력</option></select></div>
-        <div class="field"><label for="customPeriod">직접 입력 기간</label><input id="customPeriod" placeholder="예: 2026-06-01 ~ 2026-07-05" /></div>
-        <div class="field"><label for="resourceType">자료 유형</label><select id="resourceType"><option>뉴스</option><option>논문</option><option>정책자료</option><option>보도자료</option><option>표준·가이드라인</option></select></div>
-        <div class="field"><label for="sourceSelect">출처</label><select id="sourceSelect"><option>KISA</option><option>IITP</option><option>NIST</option><option>ENISA</option><option>CISA</option><option>기타</option></select></div>
-        <div class="field full">
-          <div class="actions">
-            <button class="primary wide" type="button" onclick="searchLatestResources()">최신 연구주제 3개 찾기</button>
-            <button class="secondary wide" type="button" onclick="buildAgentPrompt('search')">검색 프롬프트 생성</button>
-          </div>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <h1>사이버보안 분야 최신 연구주제에 맞는 RFP작성</h1>
+          <p>기존 연구 중복성 검토 · 최신 동향 반영 · 수요조사서/ RFP 초안 생성</p>
         </div>
       </div>
-      <div class="table-wrap" style="margin-top:14px">
-        <table>
-          <thead>
-            <tr><th>제목</th><th>출처</th><th>날짜</th><th>핵심 이슈</th><th>연계 가능성</th></tr>
-          </thead>
-          <tbody id="resourceResults">
-            <tr><td colspan="5">검색 결과가 이곳에 표시됩니다.</td></tr>
-          </tbody>
-        </table>
+      <nav class="nav" aria-label="메뉴">
+        <a class="chip" href="#searchSection">1. 최신 연구주제 검색 + NTIS 중복성 검토</a>
+        <a class="chip" href="#docSection">2. 사용자 입력값</a>
+        <a class="chip" href="#docGenSection">3. 문서 생성 및 다운로드</a>
+      </nav>
+    </header>
+
+    <section class="panel" style="margin-top:18px">
+      <div class="panel-head">
+        <div>
+          <h3 class="section-title">에이전트 안내</h3>
+          <p class="subtle">상단 소개는 제거하고, 아래에서 최신 연구주제 검색부터 바로 진행합니다.</p>
+        </div>
+        <div class="toolbar" aria-hidden="true">
+          <span class="chip">검색부터 시작</span>
+          <span class="chip">중복성 검토 포함</span>
+        </div>
       </div>
+      <div id="agentSummary" class="hidden" aria-hidden="true"></div>
     </section>
 
-    <section class="card" id="topicArea">
-      <h2>2. 최신 연구주제 카드</h2>
-      <div class="sub">검색 결과를 바탕으로 최신 연구주제 3개를 제시합니다. 카드 하나를 선택하면 아래 작성 영역이 열립니다.</div>
-      <div id="topicCards" class="topic-grid"></div>
-      <div id="topicStatus" class="status" style="margin-top:14px">아직 선택된 연구주제가 없습니다.</div>
-    </section>
+    <div class="grid">
+      <details class="accordion panel" id="searchSection" open>
+        <summary>
+          <div>
+            <h3 class="section-title" style="margin:0">1. 최신 연구주제 검색 → NTIS 중복성 검토 → 저중복 3개 추천</h3>
+            <div class="hint">최근 기사, 논문, 특허, 학회지 발표내용을 먼저 반영하고, NTIS 기존 연구와의 중복 가능성을 검토한 뒤 중복성이 낮은 신규 연구주제 3개를 우선 추천합니다.</div>
+          </div>
+          <div class="toolbar" aria-hidden="true">
+            <span class="chip">뉴스: 최근 3개월</span>
+            <span class="chip">논문: 최근 1년</span>
+            <span class="chip">특허: 최근 1년</span>
+            <span class="chip">학회: 최근 1년</span>
+          </div>
+        </summary>
+        <div class="accordion-body">
+          <div class="row-3">
+            <div class="field"><label for="topicQuery">검색어 입력창</label><input id="topicQuery" type="text" placeholder="예: AI 에이전트, PQC, 제로트러스트" /></div>
+            <div class="field"><label for="techField">기술분야 선택</label>
+              <select id="techField">
+                <option>공통보안</option>
+                <option>인공지능보안</option>
+                <option>네트워크·클라우드보안</option>
+                <option>암호</option>
+                <option>인증·인가</option>
+                <option>전체</option>
+              </select>
+            </div>
+            <div class="field"><label>검색 조건</label><div class="status">검색 기준은 기본값으로 고정 가능하며, 필요 시 API/백엔드로 확장</div></div>
+          </div>
+          <div class="panel" style="margin-top:18px;padding:16px;background:#fff">
+            <div class="panel-head">
+              <div>
+                <h3 class="section-title" style="margin:0">NTIS 중복성 검토 및 추천 주제 정리</h3>
+                <p class="subtle">검색 조건으로 먼저 최신 후보를 모은 뒤, NTIS 기존 연구와 겹침을 검토하고 저중복 신규 연구주제 3개를 우선 추천합니다.</p>
+              </div>
+              <div id="ntisStatus" class="status warn">NTIS 연동 대기: API ID/PW 입력 후 상태 확인</div>
+            </div>
+            <div class="row-3">
+              <div class="field"><label for="dupQuery">기존 연구주제 검색어 입력창</label><input id="dupQuery" type="text" placeholder="예: AI 에이전트 신뢰성" /></div>
+              <div class="field"><label for="ntisId">NTIS API ID 입력창</label><input id="ntisId" type="text" autocomplete="off" placeholder="NTIS API ID" /></div>
+              <div class="field"><label for="ntisPw">NTIS API PW 입력창</label><input id="ntisPw" type="password" autocomplete="off" placeholder="NTIS API PW" /></div>
+            </div>
+            <div class="row" style="margin-top:14px">
+              <div class="field"><label for="dupTitle">과제명 입력창</label><input id="dupTitle" type="text" placeholder="과제명" /></div>
+              <div class="field"><label for="dupGoal">연구목표 입력창</label><input id="dupGoal" type="text" placeholder="연구목표" /></div>
+            </div>
+            <div class="row" style="margin-top:14px">
+              <div class="field"><label for="dupKeywords">핵심기술 키워드 입력창</label><input id="dupKeywords" type="text" placeholder="예: 프롬프트 인젝션, LMM, PQC" /></div>
+              <div class="field"><label for="dupClass">기술분류 입력창</label><input id="dupClass" type="text" placeholder="예: 공통보안 / 인공지능보안 / 생성형AI 보안" /></div>
+            </div>
+            <div class="toolbar" style="margin-top:14px">
+              <button class="btn btn-dark" id="btnNtisSearch">NTIS 기존 연구 검색</button>
+              <button class="btn btn-primary" id="btnDupCheck">중복성 검토</button>
+            </div>
+            <div class="result-box" id="ntisResultBox" style="margin-top:14px">
+              <div class="mini-note">NTIS API 엔드포인트, 파라미터명, 인증 방식은 실제 NTIS 오픈 API 문서에 맞춰 수정 가능하도록 JS 함수에 주석을 두었습니다. ID/PW는 localStorage, sessionStorage, cookie에 저장하지 않습니다.</div>
+            </div>
+            <div class="result-list" id="dupResultArea" style="margin-top:14px"></div>
+          </div>
+          <div class="toolbar" style="margin-top:14px">
+            <button class="btn btn-primary" id="btnFindTopics">저중복 3개 추천</button>
+            <button class="btn btn-light" id="btnResetTopics">초기화</button>
+          </div>
+          <div class="topic-grid" id="topicResultArea" style="margin-top:14px"></div>
+        </div>
+      </details>
 
-    <section class="card hidden" id="section2">
-      <h2>3. 수요조사서 및 RFP 작성 실행 영역</h2>
-      <div class="sub">선택된 연구주제를 기준으로 수요조사서 또는 RFP를 바로 생성하고 다운로드할 수 있습니다.</div>
-      <div class="form">
-        <div class="field"><label for="topic">제안 기술명</label><input id="topic" placeholder="카드 선택 시 자동 입력" /></div>
-        <div class="field"><label for="problem">문제정의</label><input id="problem" placeholder="예: 멀티모달 환경에서 개인정보 유출 탐지 한계" /></div>
-        <div class="field"><label for="goalTech">연구개발 목표</label><input id="goalTech" placeholder="예: 비식별화, 위협탐지, 제로트러스트" /></div>
-        <div class="field"><label for="securityDomain">기술분야</label><select id="securityDomain"><option>인공지능보안</option><option>네트워크·클라우드 보안</option><option>인증·인가</option><option>암호</option><option>디지털포렌식</option><option>OT/ICS 보안</option><option>개인정보보호</option></select></div>
-        <div class="field"><label for="majorClass">대분류</label><select id="majorClass"><option>사이버보안</option><option>AI·디지털융합</option><option>차세대통신</option><option>양자</option><option>사물인터넷</option></select></div>
-        <div class="field"><label for="midClass">중분류</label><select id="midClass"><option>네트워크·클라우드 보안</option><option>공통보안</option><option>데이터보호</option><option>AI생태계보안내재화핵심기술개발</option><option>차세대통신보안</option></select></div>
-        <div class="field"><label for="subClass">세부 기술분류</label><select id="subClass"><option>지능형 위협분석 및 관제</option><option>클라우드보안</option><option>인공지능보안</option><option>인증·인가</option><option>암호</option></select></div>
-        <div class="field"><label for="detailTech">핵심기술 요소</label><input id="detailTech" placeholder="예: 멀티모달 탐지, 재식별 위험평가, SOAR" /></div>
-        <div class="field"><label for="industry">적용 분야</label><input id="industry" placeholder="예: 공공, 의료, 통신, OT/ICS, 클라우드" /></div>
-        <div class="field"><label for="users">예상 수요처</label><input id="users" placeholder="예: 공공기관, 제조기업, 연구기관, 일반국민" /></div>
-        <div class="field"><label for="rfpRelated">기존 연구와의 연계</label><select id="rfpRelated"><option>강함</option><option>보통</option><option>약함</option><option>미확인</option></select></div>
-        <div class="field"><label for="novelty">기존 연구와의 차별성</label><textarea id="novelty" placeholder="기존에 없던 새로운 연구주제의 차별성"></textarea></div>
-        <div class="field"><label for="keywords">국내외 최신 동향 요약</label><input id="keywords" placeholder="예: 생성형 AI, 개인정보 유출, zero trust, LMM, PQC" /></div>
-        <div class="field"><label for="period">정량 성과지표</label><input id="period" placeholder="예: 3년, 4년, 5년" /></div>
-        <div class="field"><label for="outputs">기대효과</label><input id="outputs" placeholder="예: 시제품, 표준안, 플랫폼, 특허, 논문" /></div>
-        <div class="field"><label for="surveyReq">수요조사서 작성 요청사항</label><textarea id="surveyReq" placeholder="표준화, 국제공동연구, 개발기간, 예산 등"></textarea></div>
-        <div class="field"><label for="rfpReq">RFP 작성 요청사항</label><textarea id="rfpReq" placeholder="목차, 성과목표, 지표, 차별성, 참고자료 등"></textarea></div>
-        <div class="field full"><label for="techTreeNote">Tech Tree 기준 분류 메모</label><textarea id="techTreeNote" placeholder="자동 추출이 어려우면 이곳에 메모합니다."></textarea></div>
-      </div>
-      <div class="actions" style="margin-top:14px">
-        <button class="primary wide" type="button" onclick="generateDemandSurvey()">수요조사서 작성</button>
-        <button class="secondary wide" type="button" onclick="generateRfpDraft()">RFP 작성</button>
-        <button class="ghost wide" type="button" onclick="generateBothDocuments()">수요조사서 + RFP 동시 작성</button>
-      </div>
-      <div class="download-row">
-        <button class="secondary wide" type="button" onclick="downloadDoc('survey')">수요조사서 다운로드</button>
-        <button class="secondary wide" type="button" onclick="downloadDoc('rfp')">RFP 다운로드</button>
-      </div>
-      <div class="form" style="margin-top:14px">
-        <div class="field full"><label for="promptBox">Agent 실행용 프롬프트</label><textarea id="promptBox" placeholder="버튼을 누르면 여기에 실행 프롬프트가 생성됩니다."></textarea></div>
-        <div class="field full"><label for="resultBox">결과 출력 영역</label><div id="resultBox" class="result">생성 결과가 여기에 표시됩니다.</div></div>
-      </div>
-      <div class="form" style="margin-top:14px">
-        <div class="field full"><label>수요조사서 미리보기</label><div id="surveyPreview" class="preview">수요조사서 초안이 이곳에 표시됩니다.</div></div>
-        <div class="field full"><label>RFP 미리보기</label><div id="rfpPreview" class="preview">RFP 초안이 이곳에 표시됩니다.</div></div>
-      </div>
-    </section>
+      <section class="panel" id="docSection">
+        <div class="panel-head">
+          <div>
+            <h3 class="section-title">2. 사용자 입력값</h3>
+            <p class="subtle">1단계에서 추천된 신규 연구주제 3개 중 하나를 선택한 뒤, 수요조사서와 RFP 생성을 위한 입력을 보완합니다.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field"><label for="proposalName">제안 기술명</label><input id="proposalName" type="text" placeholder="제안 기술명" /></div>
+          <div class="field"><label for="fieldMain">기술분야</label><input id="fieldMain" type="text" placeholder="기술분야" /></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="fieldSub">세부 기술분류</label><input id="fieldSub" type="text" placeholder="세부 기술분류" /></div>
+          <div class="field"><label for="problemDef">문제정의</label><textarea id="problemDef" placeholder="문제정의"></textarea></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="needDev">기술개발 필요성</label><textarea id="needDev" placeholder="기술개발 필요성"></textarea></div>
+          <div class="field"><label for="goalRnd">연구개발 목표</label><textarea id="goalRnd" placeholder="연구개발 목표"></textarea></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="coreTech">핵심기술 요소</label><textarea id="coreTech" placeholder="핵심기술 요소"></textarea></div>
+          <div class="field"><label for="useField">적용 분야</label><textarea id="useField" placeholder="적용 분야"></textarea></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="demandSide">예상 수요처</label><textarea id="demandSide" placeholder="예상 수요처"></textarea></div>
+          <div class="field"><label for="diffText">기존 연구와의 차별성</label><textarea id="diffText" placeholder="기존 연구와의 차별성"></textarea></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="trendSummary">국내외 최신 동향 요약</label><textarea id="trendSummary" placeholder="국내외 최신 동향 요약"></textarea></div>
+          <div class="field"><label for="effectText">기대효과</label><textarea id="effectText" placeholder="기대효과"></textarea></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="metricText">정량 성과지표</label><textarea id="metricText" placeholder="정량 성과지표"></textarea></div>
+          <div class="field"><label for="demandReq">수요조사서 작성 요청사항</label><textarea id="demandReq" placeholder="수요조사서 작성 요청사항"></textarea></div>
+        </div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="rfpReq">RFP 작성 요청사항</label><textarea id="rfpReq" placeholder="RFP 작성 요청사항"></textarea></div>
+          <div class="field"><label for="extraNotes">비고</label><textarea id="extraNotes" placeholder="추가 요청사항"></textarea></div>
+        </div>
+      </section>
+
+      <section class="panel" id="docGenSection">
+        <div class="panel-head">
+          <div>
+            <h3 class="section-title">3. 문서 생성 및 다운로드</h3>
+            <p class="subtle">2단계 입력값을 바탕으로 수요조사서와 RFP 초안을 생성한 뒤 다운로드합니다.</p>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn btn-primary" id="btnDemandWrite">수요조사서 작성</button>
+          <button class="btn btn-primary" id="btnRfpWrite">RFP 작성</button>
+          <button class="btn btn-dark" id="btnDemandDownload">수요조사서 다운로드</button>
+          <button class="btn btn-dark" id="btnRfpDownload">RFP 다운로드</button>
+        </div>
+        <div class="mini-note" style="margin-top:10px">
+          주석: 순수 HTML/JavaScript만으로는 `.doc` 형식 다운로드를 구현할 수 있습니다. `.docx`가 필요하면 JS 라이브러리 또는 백엔드 생성이 추가로 필요합니다.
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h3 class="section-title">5. 미리보기 영역</h3>
+            <p class="subtle">공공기관 문서 형식에 맞춰 제목, 목차, 본문 구조가 보이도록 구성했습니다.</p>
+          </div>
+        </div>
+        <div class="preview-grid">
+          <article class="doc-card">
+            <h3>수요조사서 미리보기</h3>
+            <div class="doc" id="demandPreview"></div>
+          </article>
+          <article class="doc-card">
+            <h3>RFP 미리보기</h3>
+            <div class="doc" id="rfpPreview"></div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">문서 패키지: `index.html` · `cybersecurity_rfp_agent.md` · NTIS API 연동은 외부 시스템 정책에 따라 별도 수정 가능</div>
   </div>
 
   <script>
-    const $ = (id) => document.getElementById(id);
-    const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-    let selectedTopic = null;
-    let currentTopics = [];
-
-    function renderTopics(base){
-      const topics = [
-        { id:'t1', title:`${base} 기반 자율보안 시뮬레이터`, keywords:`${base}, 자율보안, 실시간 평가`, trend:'제로트러스트, 공격 재연, 사전검증 수요가 확대되고 있다.', cls:'사이버보안 > 지능형 위협분석 및 관제 > 지능형 사이버위협 분석', novelty:'실환경 방어수준을 실시간으로 계량하고 사전검증까지 연결하는 점이 차별적이다.', score:'높음' },
-        { id:'t2', title:`${base} 기반 AI 보안 검증 프레임워크`, keywords:'AI 보안, 안전성 검증, 프레임워크', trend:'AI 안전성 규제와 AI 보안 프로파일이 강화되고 있다.', cls:'사이버보안 > AI 보안 > 생성형 AI 보안', novelty:'AI를 방어대상과 방어수단으로 동시에 다루는 점이 차별적이다.', score:'높음' },
-        { id:'t3', title:`${base} 기반 데이터 주권 보호 기술`, keywords:'ZKP, DID, 데이터 주권', trend:'개인정보보호와 데이터 주권 이슈가 정책·산업 전반으로 확산 중이다.', cls:'사이버보안 > 공통보안 > 데이터 보안', novelty:'인증과 데이터 통제를 하나의 연구주제로 결합하는 점이 차별적이다.', score:'중간~높음' }
+    (() => {
+      // =========================
+      // 에이전트 분석 요약
+      // =========================
+      const agentSummary = [
+        { title: '에이전트 MD 파일명', text: 'cybersecurity_rfp_agent.md' },
+        { title: '에이전트 목적', text: '기존 RFP와 중복되지 않는 최신 사이버보안 아이디어 및 RFP 초안 생성' },
+        { title: '사용자 입력값', text: '기술명, 문제정의, 필요성, 목표, 핵심기술, 차별성, 최신동향, 성과지표, 요청사항' },
+        { title: '출력 결과물', text: '수요조사서 초안, RFP 초안, 중복성 검토 결과, 참고자료 목록' },
+        { title: '다운로드 방식', text: '브라우저에서 읽을 수 있는 HTML 기반 .doc 저장 방식 사용' }
       ];
-      currentTopics = topics;
-      $('topicCards').innerHTML = topics.map((t, i) => `
-        <div class="topic ${selectedTopic?.id===t.id ? 'selected' : ''}" data-id="${t.id}">
-          <h3>연구주제 ${i+1}</h3>
-          <div><strong>${escapeHtml(t.title)}</strong></div>
+      const agentSummaryEl = document.getElementById('agentSummary');
+      agentSummaryEl.innerHTML = agentSummary.map(item => `
+        <div class="info-item">
+          <strong>${item.title}</strong>
+          <div>${item.text}</div>
+        </div>
+      `).join('');
+
+      // =========================
+      // 데이터 세트
+      // =========================
+      const topicLibrary = [
+        {
+          title: 'AI 에이전트 자율통제 및 선제적 억제 기술',
+          field: '인공지능보안',
+          keywords: ['AI 에이전트', '프롬프트 인젝션', '자율통제', '선제억제'],
+          evidence: 'AI 에이전트 오남용, 프롬프트 인젝션, LLM 안전성 논의가 최근 급증',
+          classification: '공통보안 / 인공지능보안 / 생성형AI 보안',
+          rfpChance: '높음',
+          diff: '기존 공격탐지 중심 과제보다 에이전트 행동 통제에 초점'
+        },
+        {
+          title: 'LMM 생태계 보안 위협 및 안전성 검증',
+          field: '인공지능보안',
+          keywords: ['LMM', '멀티모달', '안전성 검증', '취약점 분석'],
+          evidence: '멀티모달 모델 취약점, 적대적 공격, 데이터 오염 관련 연구와 뉴스 확대',
+          classification: '공통보안 / 인공지능보안 / AI모델 보호',
+          rfpChance: '높음',
+          diff: '모델 단일 보호가 아니라 생태계 전체 검증으로 확장'
+        },
+        {
+          title: 'AI 서비스 전주기 평가 프레임워크',
+          field: '인공지능보안',
+          keywords: ['전주기', '평가프레임워크', '배포전검증', '서비스보안'],
+          evidence: '학습·배포·운영 전 구간 검증 필요성이 국내외 학회에서 부각',
+          classification: '공통보안 / 인공지능보안 / AI모델 보호',
+          rfpChance: '중상',
+          diff: '단편적 테스트가 아닌 전주기 평가체계 제안'
+        },
+        {
+          title: 'AI 모델 증류 방지 및 추적 기술',
+          field: '인공지능보안',
+          keywords: ['모델 증류', 'IP 보호', '추적', '무단복제'],
+          evidence: 'AI 지재권 보호와 모델 도난 방지 논의가 산업계에서 증가',
+          classification: '공통보안 / 인공지능보안 / 적대적공격 대응',
+          rfpChance: '중상',
+          diff: '기존 방어보다 지재권 보호와 추적성 확보에 집중'
+        },
+        {
+          title: '제로트러스트 기반 데이터 안심구역 고도화',
+          field: '네트워크·클라우드보안',
+          keywords: ['제로트러스트', 'Trusted Data Zone', '데이터 격리', '안심구역'],
+          evidence: '공공·산업 데이터 활용 확대와 보안/성능 동시 확보 필요성 증가',
+          classification: '네트워크·클라우드보안 / 클라우드보안 / 가상화플랫폼보안',
+          rfpChance: '높음',
+          diff: '단순 반출입 통제에서 AI 학습 최적화 보안 인프라로 확장'
+        },
+        {
+          title: 'PQC 전환 자동화 및 오픈플랫폼',
+          field: '암호',
+          keywords: ['PQC', '양자내성암호', '전환자동화', '오픈플랫폼'],
+          evidence: '양자위협 대비 및 전환 자동화 수요가 정책·산업계에서 증가',
+          classification: '공통보안 / 암호 / 암호설계',
+          rfpChance: '높음',
+          diff: '암호 알고리즘 개발을 넘어 DevOps 기반 전환 자동화 포함'
+        },
+        {
+          title: '영지식 증명 기반 데이터 주권·DID',
+          field: '인증·인가',
+          keywords: ['ZKP', 'DID', '데이터 주권', '분산신원'],
+          evidence: '글로벌 신원 인증 표준과 개인정보 통제권 논의가 강화',
+          classification: '공통보안 / 인증·인가 / 범용인증',
+          rfpChance: '중상',
+          diff: '인증 체계와 데이터 주권을 함께 다루는 점이 차별점'
+        },
+        {
+          title: '공공데이터 위변조 실시간 검증',
+          field: '공통보안',
+          keywords: ['원본성', '위변조검증', '블록체인', '공공데이터'],
+          evidence: '공공데이터 신뢰성 확보와 실시간 검증 요구가 지속 증가',
+          classification: '공통보안 / 인증·인가 / 범용인증',
+          rfpChance: '중상',
+          diff: '이력 기록이 아니라 원본성 실시간 보장에 초점'
+        }
+      ];
+
+      const ntisRfpLibrary = [
+        { title: '사이버공격 실시간 방어수준 지표기반평가 및 전주기 자율보안을 위한 시뮬레이터 개발', class: '네트워크·클라우드보안 / 지능형 위협분석 및 관제', keywords: ['시뮬레이터', '전주기', '자율보안', '방어수준'] },
+        { title: '글로벌 표준 준용 AI기반 한국형 제로트러스트 오픈 플랫폼 기술개발', class: '네트워크·클라우드보안 / 클라우드보안 / 가상화플랫폼보안', keywords: ['제로트러스트', '오픈플랫폼', '클라우드'] },
+        { title: 'LMM 생태계의 보안 위협 및 취약점 분석과 안전성 검증 기술개발', class: '공통보안 / 인공지능보안 / AI모델 보호', keywords: ['LMM', '안전성 검증', '취약점'] },
+        { title: 'AI 에이전트 신뢰성과 안전성 확보를 위한 자율통제 및 선제적 억제 기술 개발', class: '공통보안 / 인공지능보안 / 생성형AI 보안', keywords: ['AI 에이전트', '자율통제', '선제억제'] },
+        { title: 'AI 서비스의 개발부터 배포까지 전주기의 평가 프레임워크 개발', class: '공통보안 / 인공지능보안 / AI모델 보호', keywords: ['전주기', '평가 프레임워크', '배포'] },
+        { title: 'AI 지식재산권 보호를 위한 AI 모델 증류 방지 및 증류 추적 기술 개발', class: '공통보안 / 인공지능보안 / 적대적공격 대응', keywords: ['모델 증류', '추적', '지재권'] },
+        { title: 'PQC와 QKD를 결합한 도메인 간 양자보안 시스템 개발', class: '공통보안 / 암호 / 암호부채널분석', keywords: ['PQC', 'QKD', '양자보안'] },
+        { title: 'Quantum-Safe 초소형디바이스 실현을 위한 초경량 하드웨어 PQC 전환 기술 개발', class: '공통보안 / 암호 / 암호설계', keywords: ['PQC 전환', '하드웨어', '초소형디바이스'] },
+        { title: 'DevOps 기반 양자내성암호 전환 자동화 기술 및 오픈플랫폼 개발', class: '공통보안 / 암호 / 암호설계', keywords: ['전환 자동화', '오픈플랫폼', 'DevOps'] }
+      ];
+
+      const researchTopicTemplates = [
+        topicLibrary[0], topicLibrary[1], topicLibrary[2], topicLibrary[4], topicLibrary[5], topicLibrary[6], topicLibrary[7], topicLibrary[3]
+      ];
+
+      const topicThemes = [
+        { bg: '#f5f8fc', card: '#ffffff', blue: '#1d4ed8', navy: '#0b1f44', soft: 'rgba(29,78,216,.08)', line: 'rgba(15,23,42,.10)', shadow: '0 16px 40px rgba(15,23,42,.07)' },
+        { bg: '#f2f7ff', card: '#ffffff', blue: '#2563eb', navy: '#102a55', soft: 'rgba(37,99,235,.09)', line: 'rgba(37,99,235,.14)', shadow: '0 18px 42px rgba(15,23,42,.08)' },
+        { bg: '#f6f9ff', card: '#ffffff', blue: '#1e40af', navy: '#0f2347', soft: 'rgba(30,64,175,.10)', line: 'rgba(30,64,175,.14)', shadow: '0 18px 42px rgba(15,23,42,.08)' }
+      ];
+
+      let currentTopicCards = [];
+      let selectedTopic = null;
+
+      // =========================
+      // 유틸
+      // =========================
+      const $ = (id) => document.getElementById(id);
+      const esc = (s) => String(s ?? '').replace(/[&<>"]/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m]));
+      const norm = (s) => String(s ?? '').toLowerCase().trim();
+
+      function toDocHtml(title, bodyHtml) {
+        return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>${esc(title)}</title>
+<style>
+body{font-family:Arial,'Malgun Gothic',sans-serif;color:#111827;line-height:1.6;margin:32px}
+h1{font-size:22pt;color:#0b1f44;margin:0 0 12px}
+h2{font-size:14pt;color:#1d4ed8;margin:18px 0 8px}
+h3{font-size:12pt;color:#0b1f44;margin:14px 0 6px}
+table{width:100%;border-collapse:collapse;margin:10px 0 14px}
+th,td{border:1px solid #cbd5e1;padding:8px 10px;vertical-align:top;text-align:left}
+th{background:#f3f7ff;color:#0b1f44}
+p,li{font-size:11pt}
+ul{margin:6px 0 10px 20px}
+</style></head><body>${bodyHtml}</body></html>`;
+      }
+
+      function downloadFile(filename, html) {
+        const blob = new Blob([html], { type: 'application/msword;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function markDownloadDone(buttonId, label) {
+        const btn = $(buttonId);
+        if (!btn) return;
+        btn.classList.add('btn-done');
+        btn.textContent = label;
+      }
+
+      function getFormData() {
+        return {
+          selectedTopicTitle: selectedTopic ? selectedTopic.title : '',
+          proposalName: $('proposalName').value.trim(),
+          fieldMain: $('fieldMain').value.trim(),
+          fieldSub: $('fieldSub').value.trim(),
+          problemDef: $('problemDef').value.trim(),
+          needDev: $('needDev').value.trim(),
+          goalRnd: $('goalRnd').value.trim(),
+          coreTech: $('coreTech').value.trim(),
+          useField: $('useField').value.trim(),
+          demandSide: $('demandSide').value.trim(),
+          diffText: $('diffText').value.trim(),
+          trendSummary: $('trendSummary').value.trim(),
+          effectText: $('effectText').value.trim(),
+          metricText: $('metricText').value.trim(),
+          demandReq: $('demandReq').value.trim(),
+          rfpReq: $('rfpReq').value.trim(),
+          dupTitle: $('dupTitle').value.trim(),
+          dupGoal: $('dupGoal').value.trim(),
+          dupKeywords: $('dupKeywords').value.trim(),
+          dupClass: $('dupClass').value.trim(),
+          dupQuery: $('dupQuery').value.trim()
+        };
+      }
+
+      function fillIfBlank(id, value) {
+        const el = $(id);
+        if (!el.value.trim()) el.value = value;
+      }
+
+      // 기본 예시값: 기존 MD 내용을 반영해 입력항목을 채움
+      fillIfBlank('proposalName', 'AI 에이전트 자율통제 및 선제적 억제 기술');
+      fillIfBlank('fieldMain', '사이버보안 / 공통보안 / 인공지능보안');
+      fillIfBlank('fieldSub', '생성형AI 보안, AI모델 보호, 적대적공격 대응');
+      fillIfBlank('problemDef', '생성형 AI와 에이전트 확산으로 프롬프트 인젝션, 모델 탈취, 데이터 오염 등 신규 위협이 빠르게 증가하고 있음');
+      fillIfBlank('needDev', '기존 탐지 중심 보안만으로는 AI의 자율행동을 제어하기 어려워, 사전 억제와 전주기 검증이 가능한 기술이 필요함');
+      fillIfBlank('goalRnd', 'AI 에이전트의 위험행동을 실시간 제어하고, 전주기 안전성 검증과 방어수준 계량 평가가 가능한 핵심기술 확보');
+      fillIfBlank('coreTech', '프롬프트 인젝션 방어, 정책기반 자율통제, 안전성 평가 프레임워크, 공격 재연, 이상행동 탐지');
+      fillIfBlank('useField', '공공 민원, 금융 상담, 클라우드형 AI 서비스, 보안관제, 기업 내부 AI 비서');
+      fillIfBlank('demandSide', '공공기관, AI 서비스 사업자, 보안관제 기업, 대기업 IT 조직');
+      fillIfBlank('diffText', '기존 RFP의 탐지·평가 중심 과제와 달리 AI 에이전트의 행동 제어, 선제적 억제, 전주기 검증을 통합');
+      fillIfBlank('trendSummary', '최근 3개월 국내외 뉴스에서 AI 에이전트 악용 사례와 모델 공급망 보안 이슈가 확대되고 있으며, 최근 1년 논문·특허에서는 프롬프트 인젝션 대응, 모델 보호, 전주기 평가가 핵심 주제로 부상함');
+      fillIfBlank('effectText', '국내 AI 서비스 신뢰도 제고, 공공·산업 현장 적용 가능성 확대, AI 보안 기술 국산화');
+      fillIfBlank('metricText', '탐지 정확도 90% 이상, 오탐률 5% 이하, 방어수준 평가시간 5분 이내, 공격재연 시나리오 50종 이상');
+      fillIfBlank('demandReq', '수요조사서 형식에 맞게 문제정의, 필요성, 개발내용, 기대효과를 정리해 달라.');
+      fillIfBlank('rfpReq', 'IITP 공모형 RFP 형식으로 과제명, 목표, 내용, 성과지표, 차별성을 포함해 달라.');
+
+      // =========================
+      // 최신 연구주제 3개 찾기
+      // =========================
+            function scoreTopic(topic, q, field) {
+        const query = norm(q);
+        const f = norm(field);
+        let score = 0;
+        if (f === '전체' || !f) score += 1;
+        if (topic.field.includes(field) || f === '전체') score += 3;
+        for (const k of topic.keywords) {
+          if (norm(k).includes(query) || query.includes(norm(k))) score += 4;
+        }
+        if (query && norm(topic.title).includes(query)) score += 5;
+        if (query && norm(topic.evidence).includes(query)) score += 2;
+        return score;
+      }
+
+      function applyThemeForTopic(topic) {
+        if (!topic) return;
+        const idx = Math.abs([...String(topic.title || '')].reduce((sum, ch) => sum + ch.charCodeAt(0), 0)) % topicThemes.length;
+        const theme = topicThemes[idx];
+        Object.entries(theme).forEach(([key, value]) => {
+          document.documentElement.style.setProperty(`--${key}`, value);
+        });
+      }
+
+      function topicToDraft(topic) {
+        const title = topic?.title || '최신 연구주제';
+        const field = topic?.field || '공통보안';
+        const classification = topic?.classification || field;
+        const keywords = Array.isArray(topic?.keywords) ? topic.keywords.join(', ') : '';
+        const evidence = topic?.evidence || '최신 동향과의 연결 필요';
+        const diff = topic?.diff || '기존 연구와의 차별화 필요';
+        const baseClass = String(classification).split('/').map(s => s.trim()).filter(Boolean);
+        const mainField = baseClass[0] || field;
+        const subField = baseClass.slice(1).join(' / ') || classification;
+        return {
+          proposalName: title,
+          fieldMain: mainField,
+          fieldSub: subField,
+          problemDef: `${title}은(는) ${evidence}라는 점에서 신규 연구개발 수요가 높습니다.`,
+          needDev: `기존의 단편적 보안 대응만으로는 ${title}에 대한 위협과 운영 복잡성을 충분히 해소하기 어려우므로, 최신 기술동향을 반영한 체계적 연구개발이 필요합니다.`,
+          goalRnd: `${title}의 핵심 위협을 조기에 탐지하고, 실증 가능한 보안 대응체계와 현장 적용모델을 확보합니다.`,
+          coreTech: keywords || title,
+          useField: `공공기관, 금융, 제조, 클라우드 서비스, 보안관제 및 주요 정보시스템 운영 분야`,
+          demandSide: `공공기관, 보안기업, 대기업 IT 부서, 중소기업 보안담당 조직`,
+          diffText: `${diff} 또한 최근 3개월 뉴스와 최근 1년 논문·특허·학회자료를 고려하면, ${title}은(는) 기존 RFP와의 차별화 여지가 충분합니다.`,
+          trendSummary: `최근 3개월 국내외 뉴스와 최근 1년 논문·특허·학회자료를 종합하면 ${title} 관련 수요가 확대되고 있으며, ${keywords || '핵심 보안 기술'} 중심의 실증형 연구개발이 요구됩니다.`,
+          effectText: `국내 사이버보안 대응 역량 강화, 공공·민간 현장 적용성 향상, AI 기반 위협 대응 고도화에 기여합니다.`,
+          metricText: `탐지 정확도 90% 이상, 오탐률 5% 이하, 대응시간 30% 이상 단축, 실증 시나리오 3건 이상`,
+          demandReq: `${title} 중심의 문제정의, 수요 근거, 적용 시나리오, 정량 성과목표를 명확히 기재합니다.`,
+          rfpReq: `${title}의 연구목표, 연구내용, 핵심기술, 정량 지표, 기존 RFP와의 차별성을 IITP 공공문서 형식으로 구체화합니다.`,
+          dupQuery: title,
+          dupTitle: title,
+          dupGoal: `${title} 연구개발`,
+          dupKeywords: keywords,
+          dupClass: classification
+        };
+      }
+
+      function syncFormWithTopic(topic) {
+        if (!topic) return;
+        const draft = topicToDraft(topic);
+        Object.entries(draft).forEach(([key, value]) => {
+          const el = $(key);
+          if (el && 'value' in el) el.value = value;
+        });
+      }
+
+      function duplicationScoreForTopic(topic) {
+        const text = [
+          topic.title,
+          topic.field,
+          topic.classification,
+          (topic.keywords || []).join(' '),
+          topic.evidence,
+          topic.diff
+        ].join(' ');
+        const hay = norm(text);
+        let maxScore = 0;
+        for (const item of ntisRfpLibrary) {
+          let score = 0;
+          const titleNorm = norm(item.title);
+          if (hay.includes(titleNorm.slice(0, 18))) score += 4;
+          if (hay.includes(norm(item.class))) score += 3;
+          for (const k of item.keywords) if (hay.includes(norm(k))) score += 2;
+          maxScore = Math.max(maxScore, score);
+        }
+        return maxScore;
+      }
+
+      function chooseLowOverlapTopic() {
+        const source = currentTopicCards.length ? currentTopicCards : researchTopicTemplates;
+        const ranked = [...source]
+          .map(t => ({ ...t, overlapScore: duplicationScoreForTopic(t) }))
+          .sort((a, b) => a.overlapScore - b.overlapScore || String(a.title).localeCompare(String(b.title), 'ko'));
+        return ranked[0] || null;
+      }
+
+      function renderTopicCards(list) {
+        const area = $('topicResultArea');
+        currentTopicCards = Array.isArray(list) ? list.slice() : [];
+        if (!currentTopicCards.length) {
+          area.innerHTML = '<div class="mini-note">검색 결과가 없습니다.</div>';
+          return;
+        }
+        if (!selectedTopic || !currentTopicCards.some(topic => topic.title === selectedTopic.title)) {
+          selectedTopic = currentTopicCards[0];
+        }
+        applyThemeForTopic(selectedTopic);
+        syncFormWithTopic(selectedTopic);
+
+        area.innerHTML = currentTopicCards.map((t, index) => {
+          const overlapScore = typeof t.overlapScore === 'number' ? t.overlapScore : duplicationScoreForTopic(t);
+          const overlapLevel = overlapScore >= 7 ? 'high' : overlapScore >= 4 ? 'mid' : 'low';
+          const overlapLabel = overlapLevel === 'high' ? '제외 후보' : overlapLevel === 'mid' ? '저중복 후보' : '저중복 우선';
+          return `
+          <button type="button" class="topic-card ${selectedTopic && selectedTopic.title === t.title ? 'selected' : ''}" data-index="${index}" aria-pressed="${selectedTopic && selectedTopic.title === t.title ? 'true' : 'false'}">
+            <div class="tag-row" style="justify-content:space-between;align-items:flex-start">
+              <span class="tag">TOP ${index + 1}</span>
+              <span class="overlap-badge ${overlapLevel}">${overlapLabel}</span>
+            </div>
+            <h4>${esc(t.title)}</h4>
+            <div class="tag-row">
+              ${t.keywords.map(k => `<span class="tag">${esc(k)}</span>`).join('')}
+            </div>
+            <ul>
+              <li><strong>최근 동향 근거:</strong> ${esc(t.evidence)}</li>
+              <li><strong>관련 ICT 기술분류:</strong> ${esc(t.classification)}</li>
+              <li><strong>RFP화 가능성:</strong> ${esc(t.rfpChance)}</li>
+              <li><strong>차별성 요약:</strong> ${esc(t.diff)}</li>
+            </ul>
+          </button>
+        `;}).join('');
+
+        area.querySelectorAll('.topic-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const idx = Number(card.dataset.index);
+            const topic = currentTopicCards[idx];
+            if (!topic) return;
+            selectedTopic = topic;
+            applyThemeForTopic(topic);
+            syncFormWithTopic(topic);
+            renderTopicCards(currentTopicCards);
+            updatePreviews();
+          });
+        });
+      }
+
+      function findTopics() {
+        const q = $('topicQuery').value.trim();
+        const field = $('techField').value;
+        const ranked = [...researchTopicTemplates]
+          .map(t => {
+            const trendScore = scoreTopic(t, q, field);
+            const overlapScore = duplicationScoreForTopic(t);
+            const score = trendScore * 10 - overlapScore * 12;
+            return { ...t, trendScore, overlapScore, score };
+          })
+          .sort((a,b) => b.score - a.score || a.overlapScore - b.overlapScore)
+        const lowOverlap = ranked.filter(t => t.overlapScore < 7);
+        const chosen = lowOverlap.slice(0,3);
+        selectedTopic = chosen[0] || ranked[0] || null;
+        renderTopicCards(chosen.length ? chosen : ranked.slice(0,3));
+        if (lowOverlap.length < 3) {
+          $('ntisStatus').textContent = '저중복 후보가 3개 미만입니다. 검색어를 더 구체화하면 중복성이 더 낮은 주제를 찾을 수 있습니다.';
+          $('ntisStatus').className = 'status warn';
+        }
+        duplicationCheck();
+        updatePreviews();
+      }
+
+      $('btnFindTopics').addEventListener('click', findTopics);
+      $('btnResetTopics').addEventListener('click', () => {
+        $('topicQuery').value = '';
+        $('techField').value = '공통보안';
+        selectedTopic = null;
+        renderTopicCards(researchTopicTemplates.slice(0,3));
+        updatePreviews();
+      });
+      selectedTopic = researchTopicTemplates[0] || null;
+      renderTopicCards(researchTopicTemplates.slice(0,3));
+      updatePreviews();
+      // NTIS 연동 / 중복성 검토
+      // =========================
+      function setNtisStatus(text, kind='warn') {
+        const el = $('ntisStatus');
+        el.className = `status ${kind}`;
+        el.textContent = text;
+      }
+
+      function ntisSearch() {
+        // 실제 NTIS 오픈 API 문서에 맞춰 아래 URL/파라미터/인증방식은 수정 필요
+        // 예시 구조:
+        // fetch('NTIS_API_ENDPOINT?apiId=...&apiPw=...&query=...')
+        //   .then(...)
+        const id = $('ntisId').value.trim();
+        const pw = $('ntisPw').value.trim();
+        if (!id || !pw) {
+          setNtisStatus('NTIS 연동 대기: API ID/PW를 입력해 주세요.', 'warn');
+          return;
+        }
+        setNtisStatus('NTIS 연동 준비 완료: 실제 API 엔드포인트와 파라미터를 적용하면 검색 가능', 'ok');
+        const q = $('dupQuery').value.trim() || $('dupTitle').value.trim() || $('dupKeywords').value.trim();
+        const results = ntisRfpLibrary
+          .filter(r => !q || norm(r.title).includes(norm(q)) || r.keywords.some(k => norm(k).includes(norm(q))))
+          .slice(0,5);
+        $('ntisResultBox').innerHTML = `
+          <strong>NTIS 검색 결과(시뮬레이션)</strong>
+          <div class="mini-note" style="margin-top:6px">실서비스에서는 NTIS API 결과로 대체하십시오. 현재 화면은 프런트엔드 템플릿입니다.</div>
+          <div style="display:grid;gap:10px;margin-top:12px">
+            ${results.map(r => `<div class="result-item"><strong>${esc(r.title)}</strong><p>기술분류: ${esc(r.class)}<br>키워드: ${esc(r.keywords.join(', '))}</p></div>`).join('') || '<div class="result-item"><strong>검색 결과 없음</strong><p>검색어를 바꿔 다시 시도해 주세요.</p></div>'}
+          </div>`;
+      }
+
+      function duplicationCheck() {
+        const data = getFormData();
+        const text = [data.dupQuery, data.dupTitle, data.dupGoal, data.dupKeywords, data.dupClass, data.proposalName, data.diffText, data.trendSummary].join(' ');
+        let matches = ntisRfpLibrary.map(item => {
+          let score = 0;
+          const hay = norm(text + ' ' + item.title + ' ' + item.class + ' ' + item.keywords.join(' '));
+          for (const k of item.keywords) if (hay.includes(norm(k))) score += 2;
+          if (hay.includes(norm(item.title).slice(0, 15))) score += 3;
+          if (hay.includes(norm(item.class))) score += 2;
+          return { ...item, score };
+        }).sort((a,b) => b.score - a.score);
+        const top = matches[0];
+        const risk = top.score >= 7 ? 'high' : top.score >= 4 ? 'mid' : 'low';
+        const probability = risk === 'high' ? '높음' : risk === 'mid' ? '보통' : '낮음';
+        const overlap = top.score >= 4 ? top.keywords.join(', ') : '핵심 키워드 유사도 낮음';
+        const diffNeed = risk === 'high' ? '기존 과제와 동일한 AI 보안 범주이므로 세부 위협모델, 적용환경, 성과지표를 구분해야 함' : '기술영역은 유사하나 적용범위 또는 성과지표를 차별화할 수 있음';
+        const newDirection = risk === 'high' ? 'AI 에이전트 / 전주기 / 선제적 억제 / 공격재연 중 최소 2개 이상 결합하여 신규성 강화' : '세부 적용산업과 검증지표를 구체화하여 차별성을 확대';
+        const rfpSuggest = risk === 'high'
+          ? '기존 RFP의 AI 에이전트 안전성 또는 전주기 평가 과제와 중복될 수 있으므로, 자율통제 대상과 지표를 재정의하세요.'
+          : '현행 RFP와의 중복성은 낮으나, 유사 과제명을 피하고 실증환경을 구체화하세요.';
+        const overlapRows = matches.slice(0, 3).map((item, idx) => {
+          const overlapWords = item.keywords.join(', ');
+          const overlapDesc = [
+            item.title,
+            item.class,
+            overlapWords
+          ].join(' / ');
+          return `
+            <tr>
+              <td>${idx + 1}</td>
+              <td>${esc(item.title)}</td>
+              <td>${esc(overlapWords)}</td>
+              <td>${esc(item.class)}</td>
+              <td>${item.score >= 7 ? '높음' : item.score >= 4 ? '보통' : '낮음'}</td>
+            </tr>
+          `;
+        }).join('');
+
+        const lowOverlapTopic = chooseLowOverlapTopic();
+        if (lowOverlapTopic) {
+          selectedTopic = lowOverlapTopic;
+          const base = currentTopicCards.length ? currentTopicCards.filter(t => t.title !== lowOverlapTopic.title) : researchTopicTemplates.filter(t => t.title !== lowOverlapTopic.title);
+          const lowOrMid = base.filter(t => (typeof t.overlapScore === 'number' ? t.overlapScore : duplicationScoreForTopic(t)) < 7);
+          currentTopicCards = [lowOverlapTopic, ...lowOrMid].slice(0, 3);
+          renderTopicCards(currentTopicCards);
+          updatePreviews();
+        }
+
+        $('dupResultArea').innerHTML = `
+          <div class="result-item">
+            <div class="risk ${risk}"><span class="dot"></span>중복 가능성: ${probability}</div>
+            <strong style="margin-top:8px">유사 기존 과제명</strong>
+            <p>${esc(top.title)}</p>
+            <strong style="margin-top:10px">중복되는 기술요소</strong>
+            <p>${esc(overlap)}</p>
+            <strong style="margin-top:10px">차별화 필요 항목</strong>
+            <p>${esc(diffNeed)}</p>
+            <strong style="margin-top:10px">신규성 확보 방향</strong>
+            <p>${esc(newDirection)}</p>
+            <strong style="margin-top:10px">RFP 수정 제안</strong>
+            <p>${esc(rfpSuggest)}</p>
+            <strong style="margin-top:14px">중복 가능성이 높은 연구내용</strong>
+            <div class="mini-note" style="margin-bottom:10px">아래 항목은 기존 NTIS RFP와의 유사도가 높은 후보입니다. 세부 위협모델, 적용환경, 성과지표를 분리하면 신규성을 높일 수 있습니다.</div>
+            <div style="overflow:auto">
+              <table style="width:100%;border-collapse:collapse">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;padding:8px;border:1px solid rgba(15,23,42,.12);background:#f8fbff">순위</th>
+                    <th style="text-align:left;padding:8px;border:1px solid rgba(15,23,42,.12);background:#f8fbff">연구주제</th>
+                    <th style="text-align:left;padding:8px;border:1px solid rgba(15,23,42,.12);background:#f8fbff">중복 핵심기술</th>
+                    <th style="text-align:left;padding:8px;border:1px solid rgba(15,23,42,.12);background:#f8fbff">관련 RFP 분야</th>
+                    <th style="text-align:left;padding:8px;border:1px solid rgba(15,23,42,.12);background:#f8fbff">중복성</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${overlapRows || '<tr><td colspan="5" style="padding:8px;border:1px solid rgba(15,23,42,.12)">비교 가능한 후보가 없습니다.</td></tr>'}
+                </tbody>
+              </table>
+            </div>
+          </div>`;
+      }
+
+      $('btnNtisSearch').addEventListener('click', ntisSearch);
+      $('btnDupCheck').addEventListener('click', duplicationCheck);
+
+      // =========================
+      // 문서 미리보기 생성
+      // =========================
+      function buildDemandPreview(data) {
+        return `
+          <h4>기술수요조사서(안)</h4>
+          <div class="meta">사이버보안 분야 수요조사서 초안</div>
+          <table>
+            <tr><th>수요명</th><td>${esc(data.proposalName)}</td></tr>
+            <tr><th>기술분야</th><td>${esc(data.fieldMain)}</td></tr>
+            <tr><th>세부 기술분류</th><td>${esc(data.fieldSub)}</td></tr>
+          </table>
+          <h5>1. 문제정의</h5><p>${esc(data.problemDef)}</p>
+          <h5>2. 기술개발 필요성</h5><p>${esc(data.needDev)}</p>
+          <h5>3. 연구개발 목표</h5><p>${esc(data.goalRnd)}</p>
+          <h5>4. 핵심기술 요소</h5><p>${esc(data.coreTech)}</p>
+          <h5>5. 적용 분야 및 예상 수요처</h5><p>${esc(data.useField)}</p><p>${esc(data.demandSide)}</p>
+          <h5>6. 기존 연구와의 차별성</h5><p>${esc(data.diffText)}</p>
+          <h5>7. 국내외 최신 동향 요약</h5><p>${esc(data.trendSummary)}</p>
+          <h5>8. 기대효과</h5><p>${esc(data.effectText)}</p>
+          <h5>9. 정량 성과지표</h5><p>${esc(data.metricText)}</p>
+          <h5>10. 작성 요청사항</h5><p>${esc(data.demandReq)}</p>
+        `;
+      }
+
+      function buildRfpPreview(data) {
+        return `
+          <h4>RFP 초안</h4>
+          <div class="meta">IITP 사이버보안 공모형 RFP 초안 · 선택 연구주제: ${esc(data.selectedTopicTitle || data.proposalName)}</div>
+          <table>
+            <tr><th>과제명</th><td>${esc(data.proposalName)}</td></tr>
+            <tr><th>기술분류</th><td>${esc(data.dupClass || data.fieldMain)}</td></tr>
+            <tr><th>핵심기술</th><td>${esc(data.coreTech)}</td></tr>
+          </table>
+          <h5>1. 추진 배경 및 필요성</h5><p>${esc(data.problemDef)} ${esc(data.needDev)}</p>
+          <h5>2. 연구개발 목표</h5><p>${esc(data.goalRnd)}</p>
+          <h5>3. 연구개발 내용</h5>
           <ul>
-            <li><strong>핵심 키워드:</strong> ${escapeHtml(t.keywords)}</li>
-            <li><strong>국내외 최신 동향 근거:</strong> ${escapeHtml(t.trend)}</li>
-            <li><strong>관련 ICT 기술분류:</strong> ${escapeHtml(t.cls)}</li>
-            <li><strong>기존 연구와의 차별성 요약:</strong> ${escapeHtml(t.novelty)}</li>
-            <li><strong>RFP화 가능성:</strong> <span class="tag">${escapeHtml(t.score)}</span></li>
+            <li>${esc((data.coreTech || '').split(',').join(', ').slice(0,180) || '핵심기술 정교화 및 실증')}</li>
+            <li>기존 RFP와의 중복성 검토를 반영한 차별화 연구내용 구성</li>
+            <li>전주기 검증, 실증, 평가 지표, 산업 확산을 포함한 추진 체계 수립</li>
           </ul>
-          <div class="actions" style="margin-top:10px">
-            <button class="primary wide" type="button" onclick="chooseTopic(${i})">이 연구주제 선택</button>
-          </div>
-        </div>`).join('');
-      highlightSelected();
-    }
+          <h5>4. 기존 RFP와의 차별성</h5><p>${esc(data.diffText)}</p>
+          <h5>5. 국내외 기술동향</h5><p>${esc(data.trendSummary)}</p>
+          <h5>6. 연구개발 성과목표 및 정량 성과지표</h5><p>${esc(data.metricText)}</p>
+          <h5>7. 활용 분야</h5><p>${esc(data.useField)}</p>
+          <h5>8. 기대효과</h5><p>${esc(data.effectText)}</p>
+          <h5>9. 참고자료</h5><p>IDEA 문서, 2026RFP 문서, 최신 뉴스·논문·특허·학회자료, NTIS 검색 결과</p>
+          <h5>10. 추가 요청사항</h5><p>${esc(data.rfpReq)}</p>
+        `;
+      }
 
-    function chooseTopic(index){
-      selectedTopic = currentTopics[index];
-      $('topic').value = selectedTopic.title;
-      $('goalTech').value = selectedTopic.keywords;
-      $('detailTech').value = selectedTopic.keywords;
-      $('techTreeNote').value = selectedTopic.cls;
-      $('novelty').value = selectedTopic.novelty;
-      $('keywords').value = selectedTopic.trend;
-      $('topicStatus').className = 'status ok';
-      $('topicStatus').innerHTML = `선택된 연구주제: <strong>${escapeHtml(selectedTopic.title)}</strong><br>이제 아래 수요조사서 및 RFP 작성 영역에서 바로 문서를 생성할 수 있습니다.`;
-      $('section2').classList.remove('hidden');
-      $('section2').scrollIntoView({behavior:'smooth', block:'start'});
-      highlightSelected();
-    }
+      function updatePreviews() {
+        const data = getFormData();
+        $('demandPreview').innerHTML = buildDemandPreview(data);
+        $('rfpPreview').innerHTML = buildRfpPreview(data);
+      }
 
-    function highlightSelected(){
-      document.querySelectorAll('.topic').forEach(el => el.classList.toggle('selected', selectedTopic && el.dataset.id === selectedTopic.id));
-    }
+      $('btnDemandWrite').addEventListener('click', updatePreviews);
+      $('btnRfpWrite').addEventListener('click', updatePreviews);
+      $('btnDemandDownload').addEventListener('click', () => {
+        const data = getFormData();
+        const html = toDocHtml('수요조사서 초안', buildDemandPreview(data));
+        downloadFile('수요조사서.doc', html);
+        markDownloadDone('btnDemandDownload', '수요조사서 다운로드 완료');
+      });
+      $('btnRfpDownload').addEventListener('click', () => {
+        const data = getFormData();
+        const html = toDocHtml('RFP 초안', buildRfpPreview(data));
+        downloadFile('RFP.doc', html);
+        markDownloadDone('btnRfpDownload', 'RFP 다운로드 완료');
+      });
 
-    function searchLatestResources(){
-      const kw = $('searchKeyword').value.trim() || '사이버보안';
-      const source = $('sourceSelect').value;
-      const period = $('periodSelect').value;
-      const rows = [
-        { title:`${kw} 관련 최신 연구·보안 동향`, source, date:period === '최근 3개월' ? '최근 3개월' : '최근 1개월', issue:'제로트러스트, AI 보안, 사전검증 수요 확대', link:'중간~높음' },
-        { title:`${kw} 논문 및 학회 동향`, source:'학회·저널', date:'최근 1년', issue:'LLM 보안, ZKP, 데이터 주권, 공격 자동화', link:'높음' },
-        { title:`${kw} 정책·표준 및 산업 적용 사례`, source:'정책·산업', date:'최근 1년', issue:'AI Act, CRA, Zero Trust, 실증형 검증', link:'높음' }
-      ];
-      $('resourceResults').innerHTML = rows.map(r => `<tr><td>${escapeHtml(r.title)}</td><td>${escapeHtml(r.source)}</td><td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.issue)}</td><td><span class="tag">${escapeHtml(r.link)}</span></td></tr>`).join('');
-      renderTopics(kw);
-      $('topicArea').scrollIntoView({behavior:'smooth', block:'start'});
-    }
+      // 최초 미리보기
+      updatePreviews();
 
-    function buildAgentPrompt(mode){
-      const prompt = [
-        '너는 IITP 사이버보안 신규 RFP 작성 에이전트이다.',
-        `작업 모드: ${mode}`,
-        `제안 기술명: ${$('topic').value}`,
-        `문제정의: ${$('problem').value}`,
-        `연구개발 목표: ${$('goalTech').value}`,
-        `기술분야: ${$('securityDomain').value}`,
-        `대분류: ${$('majorClass').value}`,
-        `중분류: ${$('midClass').value}`,
-        `세부 기술분류: ${$('subClass').value}`,
-        `핵심기술 요소: ${$('detailTech').value}`,
-        `적용 분야: ${$('industry').value}`,
-        `예상 수요처: ${$('users').value}`,
-        `기존 연구와의 차별성: ${$('novelty').value}`,
-        `국내외 최신 동향 요약: ${$('keywords').value}`,
-        `정량 성과지표: ${$('period').value}`,
-        `기대효과: ${$('outputs').value}`,
-        `수요조사서 작성 요청사항: ${$('surveyReq').value}`,
-        `RFP 작성 요청사항: ${$('rfpReq').value}`,
-        '최신 동향과 기존 연구 중복성을 검토하고, 수요조사서와 RFP 초안을 공공기관 문체로 작성하라.'
-      ].join('\n');
-      $('promptBox').value = prompt;
-      $('resultBox').textContent = 'Agent 프롬프트가 생성되었습니다. 이 프롬프트를 LLM 또는 백엔드 호출에 전달하면 됩니다.';
-    }
-
-    function makeSurveyText(){
-      return `수요조사서 초안\n\n1. 수요명\n${$('topic').value || (selectedTopic?.title ?? '사이버보안 신규 과제')}\n\n2. 문제정의\n${$('problem').value}\n\n3. 기술개발 필요성\n${$('novelty').value || $('goalTech').value}\n\n4. 기술분류\n${$('majorClass').value} > ${$('midClass').value} > ${$('subClass').value}\n\n5. 핵심기술\n${$('detailTech').value}\n\n6. 적용 분야\n${$('industry').value}\n\n7. 예상 수요처\n${$('users').value}\n\n8. 기대효과\n${$('outputs').value}\n\n9. 수요조사서 작성 요청사항\n${$('surveyReq').value}\n`;
-    }
-
-    function makeRfpText(){
-      return `RFP 초안\n\n1. 과제명\n${$('topic').value || (selectedTopic?.title ?? '사이버보안 신규 과제')}\n\n2. 추진 배경 및 필요성\n${$('problem').value}\n\n3. 연구개발 목표\n${$('goalTech').value}\n\n4. 연구개발 내용\n${$('detailTech').value}\n\n5. 핵심기술\n${$('detailTech').value}\n\n6. 기술분류\n${$('majorClass').value} > ${$('midClass').value} > ${$('subClass').value}\n\n7. 기존 RFP와의 차별성\n${$('novelty').value}\n\n8. 국내외 기술동향\n${$('keywords').value}\n\n9. 연구개발 성과목표\n${$('period').value}\n\n10. 정량 성과지표\n${$('period').value}\n\n11. 활용 분야\n${$('industry').value}\n\n12. 기대효과\n${$('outputs').value}\n\n13. RFP 작성 요청사항\n${$('rfpReq').value}\n`;
-    }
-
-    function generateDemandSurvey(){
-      buildAgentPrompt('survey');
-      const text = makeSurveyText();
-      $('surveyPreview').textContent = text;
-      $('resultBox').textContent = text;
-      $('outputType').value = '수요조사서';
-    }
-
-    function generateRfpDraft(){
-      buildAgentPrompt('rfp');
-      const text = makeRfpText();
-      $('rfpPreview').textContent = text;
-      $('resultBox').textContent = text;
-      $('outputType').value = 'RFP';
-    }
-
-    function generateBothDocuments(){ generateDemandSurvey(); generateRfpDraft(); $('outputType').value = '수요조사서 + RFP'; }
-
-    function downloadDoc(type){
-      if(type === 'survey') generateDemandSurvey(); else generateRfpDraft();
-      const content = type === 'survey' ? $('surveyPreview').textContent : $('rfpPreview').textContent;
-      const base = $('topic').value || (selectedTopic?.title ?? '사이버보안 신규 과제');
-      const fileName = `${base}_${type === 'survey' ? '수요조사서' : 'RFP'}.doc`.replace(/[\\/:*?"<>|]/g, '_');
-      const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body><pre style="font-family:Malgun Gothic,Arial;white-space:pre-wrap;">${escapeHtml(content)}</pre></body></html>`;
-      const blob = new Blob([html], {type:'application/msword;charset=utf-8'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = fileName;
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
-    }
-
-    $('section2').classList.add('hidden');
+      // NTIS 주석 안내:
+      // - 실제 서비스에서는 NTIS 오픈 API 문서의 엔드포인트, 파라미터명, 인증 방식에 맞춰 fetch/axios 로직을 교체한다.
+      // - ID/PW는 이 화면에서만 메모리로 사용하며, 저장소(localStorage/sessionStorage/cookie)에는 저장하지 않는다.
+    })();
   </script>
 </body>
 </html>
+
